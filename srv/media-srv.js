@@ -399,7 +399,7 @@ module.exports = cds.service.impl(async function () {
     log('Get the access token ');
     const tenantId = 'c9c6749c-7215-47f0-924b-81a209751495';
     const clientId = '127e2db6-b395-419a-9a86-2f0f6d2524fb';
-    const clientSecret = 'xKC8Q~rvswZuSbvma54xgA98-VgN77lLOiQeocIL';
+   
     const scope = 'https://graph.microsoft.com/.default'; // For application permissions
 
     const tokenEndpoint = `https://login.microsoftonline.com/c9c6749c-7215-47f0-924b-81a209751495/oauth2/v2.0/token`;
@@ -424,7 +424,7 @@ module.exports = cds.service.impl(async function () {
 
     const tenantId = 'c9c6749c-7215-47f0-924b-81a209751495';
     const clientId = '127e2db6-b395-419a-9a86-2f0f6d2524fb';
-    const clientSecret = 'xKC8Q~rvswZuSbvma54xgA98-VgN77lLOiQeocIL';
+   
     const scope = 'https://graph.microsoft.com/.default'; // For application permissions
 
     // const tokenEndpoint = `https://login.microsoftonline.com/c9c6749c-7215-47f0-924b-81a209751495/oauth2/v2.0/token`;
