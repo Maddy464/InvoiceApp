@@ -1,0 +1,18 @@
+
+namespace Media.db;
+
+using { cuid } from '@sap/cds/common';
+
+
+entity MediaFile : cuid {
+
+@Core.ContentDisposition.Filename: fileName
+@Core.MediaType: mediaType
+
+    content: LargeBinary;
+    fileName: String;
+    mediaType:String;
+    url: String;
+    
+}
+

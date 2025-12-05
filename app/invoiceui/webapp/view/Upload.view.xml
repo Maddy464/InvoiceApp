@@ -1,0 +1,12 @@
+<mvc:View controllerName="invoiceui.controller.Upload"
+    xmlns:mvc="sap.ui.core.mvc"  xmlns:u="sap.ui.unified"
+    xmlns="sap.m">
+    <Page id="page" title="{i18n>title}">
+     <FlexBox id="_IDGenFlexBox1" direction="Column" class="sapUiLargeMargin">
+<Label id="_IDGenLabel" text="Attach File" labelFor="fileUploader" required="true"/>
+<u:FileUploader id="__fileUploader" tooltip="Upload your file to DB" change="onFileChange"/>
+<Button id="_IDGenButton" text="Upload" press="onUploadFile" type="Emphasized"/>
+<Image id="_IDGenImage" ariaDetails="detailsActiveImage" src="media_srv/v2/media/MediaFile(1)/content" decorative="false"/>
+</FlexBox>
+    </Page>
+</mvc:View>

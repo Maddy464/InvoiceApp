@@ -1,0 +1,18 @@
+
+@host=localhost
+
+@port=4004
+
+@protocol=http
+
+# POST {{protocol}}://{{host}}:{{port}}/v2/media/MediaFile HTTP/1.1
+
+# slug: sample-invoice-2.pdf
+
+# <./sample-invoice-2.pdf
+
+
+ GET {{protocol}}://{{host}}:{{port}}/v2/media/MediaFile('75d5c87d-ed58-43f8-bc49-c2073cc0ed13')/content
+
+
+
