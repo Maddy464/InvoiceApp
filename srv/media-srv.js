@@ -151,42 +151,7 @@ module.exports = cds.service.impl(async function () {
 
     //MIcrosft API ENd
 
-    //SAP BPA start
 
-    // log('bpa_destination -before');
-
-    // const bpaService = await cds.connect.to('bpa_destination'); // Replace with your destination name  
-    // log('bpa_destination -after');
-
-    // try {
-
-    //   var startContext = { "POId": "300001999" };
-    //   var workflowStartPayload = { definitionId: "com.demowf", context: startContext }
-
-    //   // const payload = {
-    //   //     definitionId: 'YOUR_BPA_PROCESS_DEFINITION_ID', // Get this from your BPA process details
-    //   //     context: {
-    //   //         orderId: orderId,
-    //   //         amount: amount
-    //   //     }
-    //   // };
-
-    //   const response = await bpaService.send('POST', '/v1/workflow-instances', JSON.stringify(workflowStartPayload), {
-    //     'Content-Type': 'application/json'
-    //   });
-
-    //   log('bpa_destination -response');
-
-    //   log('BPA Process Triggered:', response);
-    //   return 'BPA process triggered successfully!';
-    // } catch (error) {
-    //   console.error('Error triggering BPA process:', error);
-    //   // req.error(500, 'Failed to trigger BPA process.');
-    // }
-
-
-
-    //SAP BPA ends
 
 
 
@@ -330,7 +295,55 @@ module.exports = cds.service.impl(async function () {
     //  req.data.url = `/media/MediaFile(${req.data.id})/content`;
 
 
+    // SAP BPA Starts
+
+        //SAP BPA start
+
+    log('bpa_destination -before');
+
+    const bpaService = await cds.connect.to('bpa_destination'); // Replace with your destination name  
+    log('bpa_destination -after');
+
+    try {
+
+      var startContext = { "POId": "300001909" };
+      var workflowStartPayload = { definitionId: "com.demowf", context: startContext }
+
+      // const payload = {
+      //     definitionId: 'YOUR_BPA_PROCESS_DEFINITION_ID', // Get this from your BPA process details
+      //     context: {
+      //         orderId: orderId,
+      //         amount: amount
+      //     }
+      // };
+
+      const response = await bpaService.send('POST', '/v1/workflow-instances', JSON.stringify(workflowStartPayload), {
+        'Content-Type': 'application/json'
+      });
+
+      log('bpa_destination -response');
+
+      log('BPA Process Triggered:', response);
+      return 'BPA process triggered successfully!';
+    } catch (error) {
+      console.error('Error triggering BPA process:', error);
+      // req.error(500, 'Failed to trigger BPA process.');
+    }
+
+
+
+    //SAP BPA ends
+
+
+
+
+    // SAP BPA Ends
+
+
   });
+
+
+
 
 
 
