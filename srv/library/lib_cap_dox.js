@@ -4,8 +4,9 @@ const fs = require('fs');
 const cds = require('@sap/cds')
 const { Readable } = require('stream');
 const { log } = require("console");
+const { buffer } = require('stream/consumers');
 const cap_dox_key = {
-      "sap.cloud.service": "com.sap.apps.documentinformationextraction",
+            "sap.cloud.service": "com.sap.apps.documentinformationextraction",
       "saasregistryenabled": true,
       "html5-apps-repo": {
         "app_host_id": "a64bcab8-c7f6-4fb1-a185-58842a6bd6a2"
@@ -13,20 +14,20 @@ const cap_dox_key = {
       "uaa": {
         "tenantmode": "shared",
         "sburl": "https://internal-xsuaa.authentication.us10.hana.ondemand.com",
-        "subaccountid": "fa1a551f-0123-42ba-93a7-40d7970407e5",
+        "subaccountid": "15df4bf5-71f8-4a02-9112-aec6bea3183d",
         "credential-type": "binding-secret",
-        "clientid": "sb-3ac68553-8e2f-40ee-8f22-3d1b0b067fbc!b480857|dox-xsuaa-std-trial!b10844",
-        "xsappname": "3ac68553-8e2f-40ee-8f22-3d1b0b067fbc!b480857|dox-xsuaa-std-trial!b10844",
-        "clientsecret": "f473d0a0-8d73-4af4-9148-edd44e5a6a0b$SJSFSf-AZvzeS7IDChL3FmxnDpTCQbfp1qQSMbKBnUY=",
-        "serviceInstanceId": "3ac68553-8e2f-40ee-8f22-3d1b0b067fbc",
-        "url": "https://1a3a103etrial.authentication.us10.hana.ondemand.com",
+        "clientid": "sb-2d9137f7-b895-47c0-ba92-672979415ca7!b533128|dox-xsuaa-std-trial!b10844",
+        "xsappname": "2d9137f7-b895-47c0-ba92-672979415ca7!b533128|dox-xsuaa-std-trial!b10844",
+        "clientsecret": "19fb168e-7424-4ca2-8042-5481ece22df6$IHwnqISv-yVsAABUliusqaWcgPLG-EIdZ1jvoV4a2bI=",
+        "serviceInstanceId": "2d9137f7-b895-47c0-ba92-672979415ca7",
+        "url": "https://8d33ddbbtrial.authentication.us10.hana.ondemand.com",
         "uaadomain": "authentication.us10.hana.ondemand.com",
-        "verificationkey": "-----BEGIN PUBLIC KEY-----\nMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAt0Ehwcc9QbYcByg5QcYS\nZsOVYaHzHGDfGbw6OHU4pLKluFCaydkrZEueoWgUXkp5mlan7wfAbh9EftO6di3A\n20WbhhUuuzlDONNFvi98RXyAZGF0HByvUUXDGFVRcIrh5kZJcU6rL2zFmi9XGe34\ncuCfjXtBt5CnFRKB/o6+EsRkhGO6sCWgoF9tQk+96/WVK/86iGhpnDKBAf6gnUnv\ngO5sK2cn38cpUirQcL/GZtsoTAf+9+ECOe4kSBwWgsLxcVChxnmB4RZU1EduyDm2\n/GcK3q6xg367454HJt/T28jDGhmQ1xx55bmxGrge7ozEohQc7prPkF1uDDOH3rmO\nsQIDAQAB\n-----END PUBLIC KEY-----",
+        "verificationkey": "-----BEGIN PUBLIC KEY-----\nMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA3VCQhhAqNPcZiudW/v5b\ndAYub9wXdr/Zl8V3DT2mY3J5dyRqPv4fXHl7BwPw/5IiULyHTiuW0iuikUdiJno6\nwnn+X66DHD/WS3oryyOqFoxmwITnDtj2sgwTrGgRbv+AwNQkNOHYLRpG+c9ySjpM\nwK7u/IXrKOujykxXEpq/tesk25FMzHOKJds+FNn3J0EhBtPvlqAjHXg0+l3wqBLS\nWFbOlteIKv6G2xo0NBLhdu8l5Y65dCrmqRbIuZfUbTIn8x/WE/jDVnKMDvBUzEZl\nTpyP6/LJi857yYhgUk8yRdFez5xLlgcckTJvfXZ/P6iZQ4SxCxqafTidmUzZCcr9\n7wIDAQAB\n-----END PUBLIC KEY-----",
         "apiurl": "https://api.authentication.us10.hana.ondemand.com",
-        "identityzone": "1a3a103etrial",
-        "identityzoneid": "fa1a551f-0123-42ba-93a7-40d7970407e5",
-        "tenantid": "fa1a551f-0123-42ba-93a7-40d7970407e5",
-        "zoneid": "fa1a551f-0123-42ba-93a7-40d7970407e5"
+        "identityzone": "8d33ddbbtrial",
+        "identityzoneid": "15df4bf5-71f8-4a02-9112-aec6bea3183d",
+        "tenantid": "15df4bf5-71f8-4a02-9112-aec6bea3183d",
+        "zoneid": "15df4bf5-71f8-4a02-9112-aec6bea3183d"
       },
       "url": "https://aiservices-trial-dox.cfapps.us10.hana.ondemand.com",
       "dwcreuseservice": true,
@@ -37,7 +38,7 @@ const cap_dox_key = {
           "timeout": 30000
         }
       },
-      "tenantuiurl": "https://1a3a103etrial.us10-trial.doc.cloud.sap"
+      "tenantuiurl": "https://8d33ddbbtrial.us10-trial.doc.cloud.sap"
     }
 const cap_dox_config = {
       "schemaName": "SAP_invoice_schema",
@@ -46,6 +47,26 @@ const cap_dox_config = {
     };
 
 async function createPdfFile(pdfBuffer, outputPath) {
+
+
+ /// pdfBuffer = decode(pdfBuffer);
+
+  
+
+
+   //pdfBuffer = pdfBuffer.replace(/^data:application\/pdf;base64,/, '');
+
+        // Convert the Base64 string to a Buffer
+
+        // const arrayBuffer = await pdfBuffer.arrayBuffer();
+        //       pdfBuffer   = Buffer.from(arrayBuffer);
+       //pdfBuffer = Buffer.from(pdfBuffer.Buffer, 'base64');
+
+      // var buffer = Buffer.from(pdfBuffer, 'base64');
+
+      //     pdfBuffer = buffer.buffer;
+
+
   return new Promise((resolve, reject) => {
     fs.writeFile(outputPath, pdfBuffer, (err) => {
       if (err) {
@@ -58,8 +79,14 @@ async function createPdfFile(pdfBuffer, outputPath) {
 }
 
 async function setbody(pdf, fileName, auth_token) {
+
+
   let mydata = new FormData();
-  fileName = './' + fileName;
+//  fileName = './' + fileName;
+
+//  log(" setbody CAP_DOX Extraction- post_job" + fileName);
+
+//  log(" setbody CAP_DOX Extraction- post_job" + pdf);
 
  // var reader = new FileReader();
  // pdf = reader.FileReader().blob();
@@ -71,11 +98,40 @@ async function setbody(pdf, fileName, auth_token) {
   //   blobres = res;    
   // });
    // await createPdfFile(pdf, fileName);
-    mydata.append('file', fs.createReadStream(fileName));
+   // mydata.append('file', fs.createReadStream(fileName));
     //  mydata.append('file', pdf,fileName);
       
      //  const pdfn = new Blob([pdf], { type: 'application/pdf' })
-      mydata.append('file', pdf,fileName);
+
+   //  const byteArray = Buffer.from(pdf, 'base64');
+       //  pdf = pdf.transformToString("base64");
+   //  const pdfByteArray = await pdf.transformToByteArray();
+    // log(" CAP_DOX Extraction- pdfByteArray" + pdfByteArray);
+
+
+    //   const chunks = [];
+    //   var buffer;
+    // pdf.on('data', chunk => chunks.push(chunk));
+    // pdf.on('end', () => {
+    //      buffer = Buffer.concat(chunks);
+    //      log(" CAP_DOX Extraction- buffer-methds" + buffer);
+    //     // Now 'buffer' can be passed to the function expecting Buffer, ArrayBuffer, or Array
+    //     // Or, convert to string if needed: const content = buffer.toString('utf8');
+    // });
+    // pdf.on('error', err => {
+    //     console.error('Error reading stream:', err);
+    // });
+      
+     // let buffer1 = Buffer.from(pdf);
+     // const buffer = Buffer.from(buffer, 'base64');
+
+      //log(" CAP_DOX Extraction- buffer" + buffer);
+     // pdf = await streamToBuffer(pdf);
+        pdf = await buffer(pdf);
+        await createPdfFile(pdf, fileName);
+      mydata.append('file', fs.createReadStream(fileName));
+     // mydata.append('file', buffer,fileName);
+     // mydata.append('file', buffer,fileName);
      //  mydata.append('file', pdfn,fileName);
 
   cap_dox_job = {
@@ -86,6 +142,40 @@ async function setbody(pdf, fileName, auth_token) {
   mydata.append('options', JSON.stringify(cap_dox_job, null, 2))
   // log(mydata)
   return mydata
+
+
+    // let mydata = new FormData();
+    // fileName = './' + fileName;
+    // log(" before setbody CAP_DOX Extraction- post_job--createPdfFile" );
+    // await createPdfFile(pdf, fileName);
+    // log(" after setbody CAP_DOX Extraction- post_job-- createPdfFile" );
+    // mydata.append('file', fs.createReadStream(fileName));
+
+    // const blob = new Blob([pdf], {
+    //     type: 'pdf'
+    //   });
+
+    //   var binaryString = atob(pdf);
+    // var bytes = new Uint8Array(binaryString.length);
+    // for (var i = 0; i < binaryString.length; i++) {
+    //     bytes[i] = binaryString.charCodeAt(i);
+    // }
+   // return bytes.buffer;
+
+    //  await createPdfFile(bytes, fileName);
+
+    // mydata.append('file', bytes,fileName);
+
+    // cap_dox_job = {
+    //   "schemaId": await get_schema(auth_token),
+    //   "clientId": cap_dox_config.clientId,
+    //   "documentType": cap_dox_config.documentType
+    // }
+    // mydata.append('options', JSON.stringify(cap_dox_job, null, 2))
+    // // log(mydata)
+    // return mydata
+
+
 }
 
 async function get_token() {

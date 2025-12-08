@@ -6,6 +6,7 @@
 <Label id="_IDGenLabel" text="Attach File" labelFor="fileUploader" required="true"/>
 <u:FileUploader id="__fileUploader" tooltip="Upload your file to DB" change="onFileChange"/>
 <Button id="_IDGenButton" text="Upload" press="onUploadFile" type="Emphasized"/>
+<Button id="_IDGenButton1" text="UploadtoDOX" press="onUpload" type="Emphasized"/>
 <Image id="_IDGenImage" ariaDetails="detailsActiveImage" src="media_srv/v2/media/MediaFile(1)/content" decorative="false"/>
 </FlexBox>
     </Page>
