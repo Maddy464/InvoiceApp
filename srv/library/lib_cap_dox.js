@@ -180,7 +180,7 @@ async function setbody(pdf, fileName, auth_token) {
 
 async function get_token() {
 
-  log("Starting CAP_DOX Extraction " + 'in get_token')
+//  log("Starting CAP_DOX Extraction " + 'in get_token')
   var basic_auth = cap_dox_key.uaa.clientid + ':' + cap_dox_key.uaa.clientsecret
   let config = {
     method: 'get',
@@ -195,7 +195,7 @@ async function get_token() {
   access_token = await axios.request(config)
     .then((response) => {
       console.log('Oauth Token Fetched')
-      log("Starting CAP_DOX Extraction " + 'in get_token feteched')
+    //  log("Starting CAP_DOX Extraction " + 'in get_token feteched')
       return response.data.access_token;
     })
     .catch((error) => {
@@ -249,7 +249,7 @@ async function post_job(pdf, fileName, auth_token) {
   let job_id = '';
   job_id = await axios.request(config)
     .then((response) => {
-      log('JOB Post ID: ------------------>')
+     // log('JOB Post ID: ------------------>')
       log('JOB Post ID:' + JSON.stringify(response.data.id));
       return response.data.id;
     })
@@ -290,7 +290,7 @@ async function get_job_status(job_id, auth_token) {
         else {
           // await setTimeout(() =>{ console.log('5 seconds have passed!'); }, 5000);
           retry_count = retry_count + 1;
-          if (retry_count > 100) {
+          if (retry_count > 500) {
             return job_details
           }
         }

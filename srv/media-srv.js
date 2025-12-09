@@ -3,6 +3,8 @@
 const { Readable, PassThrough } = require("stream");
 const { Destinations } = require('@sap/cloud-sdk-core');
 const fetch = require('node-fetch');
+const express = require('express');
+const app = express();
 
 
 
@@ -24,6 +26,8 @@ module.exports = cds.service.impl(async function () {
     MediaFile
   } = this.entities;
 
+  //app.use(express.json({ limit: '20mb' })); // Adjust limit as needed
+
 
   /**
    * Handler method called before creating data entry
@@ -34,6 +38,7 @@ module.exports = cds.service.impl(async function () {
 
     // microsoft API's start
 
+    //app.use(express.json({ limit: '20mb' })); // Adjust limit as needed
 
 
 
@@ -174,10 +179,10 @@ module.exports = cds.service.impl(async function () {
 
     // const { content } = data; // Assuming documentContent is Base64
 
-    log("Starting CAP_DOX Extraction--data.data.fileName " + data.data.fileName);
-    log("Starting CAP_DOX Extraction--data.data.pdf " + data.data.pdf);
+   // log("Starting CAP_DOX Extraction--data.data.fileName " + data.data.fileName);
+   // log("Starting CAP_DOX Extraction--data.data.pdf " + data.data.pdf);
 
-    log("Starting CAP_DOX Extraction--data.data.content " + data.data.content);
+   // log("Starting CAP_DOX Extraction--data.data.content " + data.data.content);
 
 
     // var reader = new FileReader();
@@ -186,9 +191,9 @@ module.exports = cds.service.impl(async function () {
     //pdf = data.params.file;
 
 
-    const blob = new Blob([data.data.content], { type: 'pdf' })
+    //const blob = new Blob([data.data.content], { type: 'pdf' })
 
-    log("Starting CAP_DOX Extraction--data.blob " + blob);
+   // log("Starting CAP_DOX Extraction--data.blob " + blob);
 
     //pdf =     new Blob([pdf]);
 
@@ -251,17 +256,52 @@ module.exports = cds.service.impl(async function () {
     //  log("Job ID Received ---" + '${job_id}')
     if (job_id) {
       let dox_output = await cap_doxlib.get_job_status(job_id, auth_token);
-      log("Job Status dox_output---" + '${dox_output}')
+
+     // log("Job Status dox_output---",  dox_output)
+
+     // log("Job Status dox_output---" + '${dox_output}')
       try {
         if (dox_output.status === 'DONE') {
           log("Job Status dox_output---DONE")
+       //   log('Data.Data Headers data::--->', dox_output.extraction.headerFields);
+
+          // code copied starts
+
+             const invoice = {};
+
+      //set header
+      const invoiceHeader = dox_output.extraction.headerFields.reduce((acc, curr) => {
+        acc[curr.name] = curr.value;
+        return acc;
+      }, {});
+
+
+      log('Invoice Header Data ::--->', invoiceHeader)
+
+      //set items
+      const invoiceItems = dox_output.extraction.lineItems.reduce((acc, item) => {
+        const lineItem = item.reduce((acc, curr) => {
+          acc[curr.name] = curr.value;
+          return acc;
+        }, {});
+        acc.push(lineItem);
+        return acc;
+      }, []);
+
+
+       log('Invoice Line Items Data ::--->', invoiceItems)
+      invoice["header"] = invoiceHeader;
+      invoice["items"] = invoiceItems;
+
+          // code ends
+
           data.data = await cap_doxlib.entity_mapping_head(dox_output.extraction.headerFields, data.data)
-          log('Data.Data Headers data::--->', data.data)
+        //  log('Data.Data Lineitems data::--->', dox_output.extraction.lineItems)
           let data_with_items = await cap_doxlib.entity_mapping_item(dox_output.extraction.lineItems, data.data)
           if (data_with_items) {
             data.data = data_with_items;
           }
-          log('data_with_items::--->', data_with_items)
+         // log('data_with_items::--->', data_with_items)
         }
       }
       catch {

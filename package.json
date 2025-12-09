@@ -54,7 +54,12 @@
       },
       "destinations": true,
       "connectivity": true
-    }
+    },
+     "server": {
+          "body_parser": {
+            "limit": "5mb" 
+          }
+        }
   },
   "workspaces": [
     "app/*"
