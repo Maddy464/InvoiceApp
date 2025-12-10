@@ -11,6 +11,100 @@ sap.ui.define([
         },
         // start of changes
 
+        onCreate: function (oEvent) {
+
+
+            var oSecondModel = this.getOwnerComponent().getModel();
+            var oListBinding = oSecondModel.bindList("/InvoiceHeaders");
+
+           // let header = this.getView().getModel("invoice").getData().header;
+            //let items = this.getView().getModel("invoice").getData().items;
+
+
+            let invoice = {
+                header: {
+                    senderCity: 'Walldorf',
+                    senderExtraAddressPart: 'Postfach 1358',
+                    senderPostalCode: '69185',
+                    paymentTerms: 'Bis zum 15.12.2019 ohne Abzug',
+                    currencyCode: 'EUR',
+                    documentNumber: '601195146',
+                    grossAmount: 34.35,
+                    taxName: 'Umsatzsteuer',
+                    taxAmount: 2.25,
+                    taxRate: 7,
+                    netAmount: 13.6,
+                    taxId: 'DE143454284',
+                    senderName: 'Office Material AG',
+                    documentDate: '2019-11-15',
+                    senderAddress: 'Postfach 1358 69185 Walldorf',
+                    receiverName: 'ABC Communications',
+                    purchaseOrderNumber: '2838819',
+                    deliveryNoteNumber: '83004411',
+                    receiverAddress: 'Hauptstr. 7 69190 Walldorf, DE',
+                    deliveryDate: '2019-10-29',
+                    shippingAmount: 18.5,
+                    receiverCity: 'Walldorf,',
+                    receiverCountryCode: 'DE',
+                    receiverHouseNumber: '7',
+                    receiverStreet: 'Hauptstr.',
+                    receiverPostalCode: '69190'
+                },
+                items: [
+                    {
+                        description: 'AC230 D 16 Color [INST]',
+                        materialNumber: '50150879',
+                        quantity: 1,
+                        unitOfMeasure: 'H87',
+                        unitPrice: 13.6
+                    },
+                    {
+                        description: 'AC230 D ',
+                        materialNumber: '50199879',
+                        quantity: 10,
+                        unitOfMeasure: '887',
+                        unitPrice: 33.6
+                    }
+                ]
+            }
+
+
+
+
+
+
+
+
+            // return;
+            var oContext = oListBinding.create(invoice.header);
+            oContext.created().then(function () {
+                // Now the context is created and persisted, safe to access its properties
+                var sPath = oContext.getPath();
+            //  const sHeaderKey = oContext.getProperty("ID"); // Replace with your actual key property
+            //  let oItemBinding = oContext.getModel().bindList(sPath + "/to_items");
+            //  oItemBinding.create(invoice.items);
+
+                // // 2. Create/Update Navigation Items
+                // // Example for creating a new item
+                // let oItemBinding = oContext.getModel().bindList(sPath + "/to_items"); // Replace with your navigation path
+                invoice.items.forEach(item => {
+                         const sHeaderKey = oContext.getProperty("ID"); // Replace with your actual key property
+                // 2. Create/Update Navigation Items
+                // Example for creating a new item
+                let oItemBinding = oContext.getModel().bindList(sPath + "/to_items"); // Replace with your navigation path
+                              oItemBinding.create(item);
+                              });
+                
+               // oItemBinding.create(invoice.items[1]);
+                // Further operations with the created context
+            }).catch(function (oError) {
+                // Handle error during creation
+                console.error("Deep create failed:", oError);
+            });
+
+
+        },
+
         onUploadPress: function (oEvent) {
 
             const oModel = {};

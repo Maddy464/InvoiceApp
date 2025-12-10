@@ -14,6 +14,7 @@
 					</m:MessageStrip>				
 				</content>
 				<actions>
+				     <m:Button id="_IDGenButton11" type="Emphasized" text="Update to DB" press="onCreate" />
 					<m:Button id="_IDGenButton" type="Emphasized" text="{i18n>refresh}" press="onRefresh" visible="{viewModel>/refreshEnabled}"/>
 				</actions>
 			</ObjectPageDynamicHeaderTitle>

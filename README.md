@@ -29,4 +29,10 @@ https://www.google.com/search?q=trigger+sap+capm+action+with+parameters+uisng+od
 
 ![alt text]({5CDA030D-EF31-4F1A-8043-863191824C68}.png)
 
+### uncaughtException: ENOSPC: System limit for number of file watchers reached + sap capm
+
+![alt text]({3A5442E4-0825-464C-B3D7-1CA7DB41567E}.png)
+
+
+
 
