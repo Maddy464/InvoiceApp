@@ -3,7 +3,7 @@ sap.ui.define([
     "sap/ui/core/mvc/Controller",
     "sap/ui/model/json/JSONModel",
     "sap/m/MessageToast"
-], (Controller, JSONModel,MessageToast) => {
+], (Controller, JSONModel, MessageToast) => {
     "use strict";
 
     return Controller.extend("invoiceui.controller.Upload", {
@@ -12,6 +12,17 @@ sap.ui.define([
         // start of changes
 
         onUploadPress: function (oEvent) {
+
+            const oModel = {};
+            this.getView().setModel(new JSONModel(oModel), "invoice");
+
+            const oModel2 = {
+                editable: false,
+                refreshEnabled: false,
+                uploadEnabled: false
+            };
+            this.getView().setModel(new JSONModel(oModel2), "viewModel");
+
             const oFileUploader = this.byId("fileUploader1");
 
 
@@ -22,8 +33,8 @@ sap.ui.define([
                 // get an access to the content of the file
                 this.content = oEvent.currentTarget.result;
 
-                  var oFileUploader1 = this.byId("fileUploader1");
-                   
+                var oFileUploader1 = this.byId("fileUploader1");
+
 
                 const oModel = this.getView().getModel(); // Assuming your OData V4 model is default
 
@@ -47,14 +58,15 @@ sap.ui.define([
                 // // Create a Blob object
                 // const blob = new Blob([bytes], { type: contentType });
                 // base64Content = e.target.result.split(',')[1]; // Extract Base64 part
-               // base64Content = base64Content.split(',')[1] || base64Content;
+                // base64Content = base64Content.split(',')[1] || base64Content;
                 oAction.setParameter("file", base64Data);
-                 oAction.setParameter("fileName", oFileUploader1.oFileUpload.files[0].name);
+                oAction.setParameter("fileName", oFileUploader1.oFileUpload.files[0].name);
 
                 oAction.execute().then((oResponse, data) => {
 
                     var oActionContext = oAction.getBoundContext();
-				console.log(oActionContext.getObject()); // Access the action's return value
+                    console.log(oActionContext.getObject()); // Access the action's return value
+                    this.getView().getModel("invoice").setData(oActionContext.getObject().invoice);
                     MessageToast.show("File upload action triggered successfully!");
                 }).catch((oError) => {
                     MessageToast.show("Error triggering file upload action: " + oError.message);

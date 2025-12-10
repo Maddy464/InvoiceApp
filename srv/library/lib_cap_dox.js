@@ -5,41 +5,79 @@ const cds = require('@sap/cds')
 const { Readable } = require('stream');
 const { log } = require("console");
 const { buffer } = require('stream/consumers');
+// const cap_dox_key = {
+//             "sap.cloud.service": "com.sap.apps.documentinformationextraction",
+//       "saasregistryenabled": true,
+//       "html5-apps-repo": {
+//         "app_host_id": "a64bcab8-c7f6-4fb1-a185-58842a6bd6a2"
+//       },
+//       "uaa": {
+//         "tenantmode": "shared",
+//         "sburl": "https://internal-xsuaa.authentication.us10.hana.ondemand.com",
+//         "subaccountid": "15df4bf5-71f8-4a02-9112-aec6bea3183d",
+//         "credential-type": "binding-secret",
+//         "clientid": "sb-2d9137f7-b895-47c0-ba92-672979415ca7!b533128|dox-xsuaa-std-trial!b10844",
+//         "xsappname": "2d9137f7-b895-47c0-ba92-672979415ca7!b533128|dox-xsuaa-std-trial!b10844",
+//         "clientsecret": "19fb168e-7424-4ca2-8042-5481ece22df6$IHwnqISv-yVsAABUliusqaWcgPLG-EIdZ1jvoV4a2bI=",
+//         "serviceInstanceId": "2d9137f7-b895-47c0-ba92-672979415ca7",
+//         "url": "https://8d33ddbbtrial.authentication.us10.hana.ondemand.com",
+//         "uaadomain": "authentication.us10.hana.ondemand.com",
+//         "verificationkey": "-----BEGIN PUBLIC KEY-----\nMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA3VCQhhAqNPcZiudW/v5b\ndAYub9wXdr/Zl8V3DT2mY3J5dyRqPv4fXHl7BwPw/5IiULyHTiuW0iuikUdiJno6\nwnn+X66DHD/WS3oryyOqFoxmwITnDtj2sgwTrGgRbv+AwNQkNOHYLRpG+c9ySjpM\nwK7u/IXrKOujykxXEpq/tesk25FMzHOKJds+FNn3J0EhBtPvlqAjHXg0+l3wqBLS\nWFbOlteIKv6G2xo0NBLhdu8l5Y65dCrmqRbIuZfUbTIn8x/WE/jDVnKMDvBUzEZl\nTpyP6/LJi857yYhgUk8yRdFez5xLlgcckTJvfXZ/P6iZQ4SxCxqafTidmUzZCcr9\n7wIDAQAB\n-----END PUBLIC KEY-----",
+//         "apiurl": "https://api.authentication.us10.hana.ondemand.com",
+//         "identityzone": "8d33ddbbtrial",
+//         "identityzoneid": "15df4bf5-71f8-4a02-9112-aec6bea3183d",
+//         "tenantid": "15df4bf5-71f8-4a02-9112-aec6bea3183d",
+//         "zoneid": "15df4bf5-71f8-4a02-9112-aec6bea3183d"
+//       },
+//       "url": "https://aiservices-trial-dox.cfapps.us10.hana.ondemand.com",
+//       "dwcreuseservice": true,
+//       "swagger": "/document-information-extraction/v1/",
+//       "endpoints": {
+//         "backend": {
+//           "url": "https://aiservices-trial-dox.cfapps.us10.hana.ondemand.com",
+//           "timeout": 30000
+//         }
+//       },
+//       "tenantuiurl": "https://8d33ddbbtrial.us10-trial.doc.cloud.sap"
+//     }
+
 const cap_dox_key = {
-            "sap.cloud.service": "com.sap.apps.documentinformationextraction",
-      "saasregistryenabled": true,
-      "html5-apps-repo": {
-        "app_host_id": "a64bcab8-c7f6-4fb1-a185-58842a6bd6a2"
-      },
-      "uaa": {
-        "tenantmode": "shared",
-        "sburl": "https://internal-xsuaa.authentication.us10.hana.ondemand.com",
-        "subaccountid": "15df4bf5-71f8-4a02-9112-aec6bea3183d",
-        "credential-type": "binding-secret",
-        "clientid": "sb-2d9137f7-b895-47c0-ba92-672979415ca7!b533128|dox-xsuaa-std-trial!b10844",
-        "xsappname": "2d9137f7-b895-47c0-ba92-672979415ca7!b533128|dox-xsuaa-std-trial!b10844",
-        "clientsecret": "19fb168e-7424-4ca2-8042-5481ece22df6$IHwnqISv-yVsAABUliusqaWcgPLG-EIdZ1jvoV4a2bI=",
-        "serviceInstanceId": "2d9137f7-b895-47c0-ba92-672979415ca7",
-        "url": "https://8d33ddbbtrial.authentication.us10.hana.ondemand.com",
-        "uaadomain": "authentication.us10.hana.ondemand.com",
-        "verificationkey": "-----BEGIN PUBLIC KEY-----\nMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA3VCQhhAqNPcZiudW/v5b\ndAYub9wXdr/Zl8V3DT2mY3J5dyRqPv4fXHl7BwPw/5IiULyHTiuW0iuikUdiJno6\nwnn+X66DHD/WS3oryyOqFoxmwITnDtj2sgwTrGgRbv+AwNQkNOHYLRpG+c9ySjpM\nwK7u/IXrKOujykxXEpq/tesk25FMzHOKJds+FNn3J0EhBtPvlqAjHXg0+l3wqBLS\nWFbOlteIKv6G2xo0NBLhdu8l5Y65dCrmqRbIuZfUbTIn8x/WE/jDVnKMDvBUzEZl\nTpyP6/LJi857yYhgUk8yRdFez5xLlgcckTJvfXZ/P6iZQ4SxCxqafTidmUzZCcr9\n7wIDAQAB\n-----END PUBLIC KEY-----",
-        "apiurl": "https://api.authentication.us10.hana.ondemand.com",
-        "identityzone": "8d33ddbbtrial",
-        "identityzoneid": "15df4bf5-71f8-4a02-9112-aec6bea3183d",
-        "tenantid": "15df4bf5-71f8-4a02-9112-aec6bea3183d",
-        "zoneid": "15df4bf5-71f8-4a02-9112-aec6bea3183d"
-      },
+  "sap.cloud.service": "com.sap.apps.documentinformationextraction",
+  "saasregistryenabled": true,
+  "html5-apps-repo": {
+    "app_host_id": "a64bcab8-c7f6-4fb1-a185-58842a6bd6a2"
+  },
+  "uaa": {
+    "tenantmode": "shared",
+    "sburl": "https://internal-xsuaa.authentication.us10.hana.ondemand.com",
+    "subaccountid": "33ab8d5a-8527-41ba-8d11-9d6442d63acf",
+    "credential-type": "binding-secret",
+    "clientid": "sb-7e3aa7e5-d098-4ae5-8f40-9ebbd4489b96!b516043|dox-xsuaa-std-trial!b10844",
+    "xsappname": "7e3aa7e5-d098-4ae5-8f40-9ebbd4489b96!b516043|dox-xsuaa-std-trial!b10844",
+    "clientsecret": "d7a0e5c4-1b5e-493a-a89a-d864a5c92275$KwLMZmIleg0u3FS2tl4_FiZFNtbHldxOWhuvYqKSSJw=",
+    "serviceInstanceId": "7e3aa7e5-d098-4ae5-8f40-9ebbd4489b96",
+    "url": "https://0323a56btrial.authentication.us10.hana.ondemand.com",
+    "uaadomain": "authentication.us10.hana.ondemand.com",
+    "verificationkey": "-----BEGIN PUBLIC KEY-----\nMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAvV9W9zOZlKLQdR7PMQyK\nARl3VzlxnsGFb3cZWmH9hgEQkU4I59LQhONHUj60D5eLeZOF3G2irpmo0hzW4NU4\nekJheO+KN+zIkqZuDH/6IyRmQXW2LsxSNENw/3D3vtHWnHEz6sfEgNkUSro3ctEE\nYNJ0bjeSvU5sKCbtm6LKG7Sr5Rgv/IN67X/JiNvCKkPHQbNqpFRTI+CgLPjBl3mN\nA4N2KIjS5/GpomrQKRGLXzlRWsoxdPC+307GdzUTmqpRyReSJ7qSPRcM56fDRKW5\nidZd00crsdwHBZbEFKwtEJNbma/e4V8pSQUkw6Q8Vv49RDrbikQx+loB0vbLFEuA\n9wIDAQAB\n-----END PUBLIC KEY-----",
+    "apiurl": "https://api.authentication.us10.hana.ondemand.com",
+    "identityzone": "0323a56btrial",
+    "identityzoneid": "33ab8d5a-8527-41ba-8d11-9d6442d63acf",
+    "tenantid": "33ab8d5a-8527-41ba-8d11-9d6442d63acf",
+    "zoneid": "33ab8d5a-8527-41ba-8d11-9d6442d63acf"
+  },
+  "url": "https://aiservices-trial-dox.cfapps.us10.hana.ondemand.com",
+  "dwcreuseservice": true,
+  "swagger": "/document-information-extraction/v1/",
+  "endpoints": {
+    "backend": {
       "url": "https://aiservices-trial-dox.cfapps.us10.hana.ondemand.com",
-      "dwcreuseservice": true,
-      "swagger": "/document-information-extraction/v1/",
-      "endpoints": {
-        "backend": {
-          "url": "https://aiservices-trial-dox.cfapps.us10.hana.ondemand.com",
-          "timeout": 30000
-        }
-      },
-      "tenantuiurl": "https://8d33ddbbtrial.us10-trial.doc.cloud.sap"
+      "timeout": 30000
     }
+  },
+  "tenantuiurl": "https://0323a56btrial.us10-trial.doc.cloud.sap"
+}
+
+
 const cap_dox_config = {
       "schemaName": "SAP_invoice_schema",
       "clientId": "default",

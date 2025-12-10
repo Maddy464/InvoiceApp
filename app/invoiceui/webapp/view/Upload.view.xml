@@ -1,15 +1,53 @@
-<mvc:View controllerName="invoiceui.controller.Upload"
-    xmlns:mvc="sap.ui.core.mvc"  xmlns:u="sap.ui.unified"
-    xmlns="sap.m">
+<mvc:View controllerName="invoiceui.controller.Upload"  displayBlock="true"
+          xmlns:mvc="sap.ui.core.mvc" 
+          xmlns:u="sap.ui.unified"
+          	xmlns:l="sap.ui.layout"	
+            xmlns:core="sap.ui.core"
+          xmlns="sap.m">
+
+
+          <!-- <SplitApp
+		id="SplitAppDemo">
+		<masterPages>
+			<Page id="master" title="Upload File">
+			<l:VerticalLayout  id="layout_uploader" class="sapUiMediumMargin">
+
+				 <u:FileUploader
+        id="fileUploader1"
+        uploadUrl="/media/uploadFile"  
+        name="file"
+                sendXHR="true"
+                uploadOnChange="false"
+                fileType="pdf,jpg,png"
+                maximumFileSize="10"
+                uploadComplete="onUploadComplete"
+                change="onFileChange"
+    />
+    <Button id="_IDGenButton2" text="Upload" press="onUploadPress"/>
+			</l:VerticalLayout>
+			</Page>
+		</masterPages>
+		<detailPages>
+			<core:Fragment id="_IDGenFragment" fragmentName="invoiceui.fragment.ObjectPage" type="XML" />
+		</detailPages>
+
+	</SplitApp> -->
+
+
+
+
+          
+
+
     <Page id="page" title="{i18n>title}">
-     <FlexBox id="_IDGenFlexBox1" direction="Column" class="sapUiLargeMargin">
+     <!-- <FlexBox id="_IDGenFlexBox1" direction="Column" class="sapUiLargeMargin">
 <Label id="_IDGenLabel" text="Attach File" labelFor="fileUploader" required="true"/>
 <u:FileUploader id="__fileUploader" tooltip="Upload your file to DB" change="onFileChange"/>
 
-<Button id="_IDGenButton" text="Upload" press="onUploadFile" type="Emphasized"/>
-<Button id="_IDGenButton1" text="UploadtoDOX" press="onUpload" type="Emphasized"/>
+<Button id="_IDGenButton12" text="Upload" press="onUploadFile" type="Emphasized"/>
+<Button id="_IDGenButton11" text="UploadtoDOX" press="onUpload" type="Emphasized"/>
 <Image id="_IDGenImage" ariaDetails="detailsActiveImage" src="media_srv/v2/media/MediaFile(1)/content" decorative="false"/>
-</FlexBox>
+</FlexBox> -->
 <VBox id="_IDGenVBox1">
     <u:FileUploader
         id="fileUploader1"
@@ -23,6 +61,10 @@
                 change="onFileChange"
     />
     <Button id="_IDGenButton2" text="Upload" press="onUploadPress"/>
-</VBox>
-    </Page>
+    </VBox>
+
+   <core:Fragment id="_IDGenFragment" fragmentName="invoiceui.fragment.ObjectPage" type="XML" />
+
+
+    </Page> 
 </mvc:View>
