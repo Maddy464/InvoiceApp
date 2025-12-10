@@ -21,6 +21,65 @@ const cap_doxlib = require("./library/lib_cap_dox");
 
 module.exports = cds.service.impl(async function () {
 
+  this.on('uploadFile', async (req) => {
+    const fileContent = req.data.file;
+    const fileName = req.data.fileName;
+    var invoice = {};
+
+    log("Starting CAP_DOX Extraction file ", req.data.fileName)
+
+     log("Starting CAP_DOX Extraction ")
+    let auth_token = await cap_doxlib.auth_token();
+    let job_id = await cap_doxlib.post_job(fileContent, fileName, auth_token);
+    if (job_id) {
+      let dox_output = await cap_doxlib.get_job_status(job_id, auth_token);
+      try {
+        if (dox_output.status === 'DONE') {
+          log("Job Status dox_output---DONE")
+          //set header
+          const invoiceHeader = dox_output.extraction.headerFields.reduce((acc, curr) => {
+            acc[curr.name] = curr.value;
+            return acc;
+          }, {});
+
+         // log('Invoice Header Data ::--->', invoiceHeader)
+          //set items
+          const invoiceItems = dox_output.extraction.lineItems.reduce((acc, item) => {
+            const lineItem = item.reduce((acc, curr) => {
+              acc[curr.name] = curr.value;
+              return acc;
+            }, {});
+            acc.push(lineItem);
+            return acc;
+          }, []);
+       //   log('Invoice Line Items Data ::--->', invoiceItems)
+          invoice["header"] = invoiceHeader;
+          invoice["items"] = invoiceItems;
+
+          // code ends
+      
+        }
+      }
+      catch {
+        log('something happened')
+      }
+    }
+    else {
+      log('Problem faced. Check JOBID: ', job_id);
+    }
+
+
+
+    // Process the fileContent here (e.g., save to database, send to external service)
+   // log("Received file content:", fileContent);
+    // Add your logic for handling the uploaded file
+
+     log('Problem faced. Check JOBID:- invoice ', invoice);
+
+    return {invoice };
+
+  });
+
 
   const {
     MediaFile
@@ -34,6 +93,8 @@ module.exports = cds.service.impl(async function () {
    * for entity Mediafile.
    */
   this.before('CREATE', MediaFile, async data => {
+
+    var invoice = {};
     // const db = await cds.connect.to("db");
 
     // microsoft API's start
@@ -179,10 +240,10 @@ module.exports = cds.service.impl(async function () {
 
     // const { content } = data; // Assuming documentContent is Base64
 
-   // log("Starting CAP_DOX Extraction--data.data.fileName " + data.data.fileName);
-   // log("Starting CAP_DOX Extraction--data.data.pdf " + data.data.pdf);
+    // log("Starting CAP_DOX Extraction--data.data.fileName " + data.data.fileName);
+    // log("Starting CAP_DOX Extraction--data.data.pdf " + data.data.pdf);
 
-   // log("Starting CAP_DOX Extraction--data.data.content " + data.data.content);
+    // log("Starting CAP_DOX Extraction--data.data.content " + data.data.content);
 
 
     // var reader = new FileReader();
@@ -193,7 +254,7 @@ module.exports = cds.service.impl(async function () {
 
     //const blob = new Blob([data.data.content], { type: 'pdf' })
 
-   // log("Starting CAP_DOX Extraction--data.blob " + blob);
+    // log("Starting CAP_DOX Extraction--data.blob " + blob);
 
     //pdf =     new Blob([pdf]);
 
@@ -210,42 +271,42 @@ module.exports = cds.service.impl(async function () {
     // readable.push(null);
 
 
-  //        var latestdata = data.data.content;
-  //       latestdata = latestdata.split(',')[1] || latestdata;
+    //        var latestdata = data.data.content;
+    //       latestdata = latestdata.split(',')[1] || latestdata;
 
-  //    log(" Before CAP_DOX Extraction- post_job + Buffer" );
-  //   let b64 = Buffer.isBuffer(latestdata) ? null : String(latestdata);
-  //   if (b64 && b64.startsWith("data:")) {
-  //     const i = b64.indexOf("base64,");
-  //     if (i > -1) b64 = b64.slice(i + "base64,".length);
-  //  }
-  //  const buffer = Buffer.isBuffer(latestdata) ? latestdata : Buffer.from(b64 || latestdata, "base64");
-  //  log(" After CAP_DOX Extraction- post_job + Buffer" );
-  //  //console.log("[CHECK] filename=", filename, "buffer length=", buffer?.length);
-  //   if (!buffer?.length) return req.error(400, "Empty or invalid base64 file");
-
-
-        // const fileBuffer = Buffer.from(data.data.content, 'base64');
+    //    log(" Before CAP_DOX Extraction- post_job + Buffer" );
+    //   let b64 = Buffer.isBuffer(latestdata) ? null : String(latestdata);
+    //   if (b64 && b64.startsWith("data:")) {
+    //     const i = b64.indexOf("base64,");
+    //     if (i > -1) b64 = b64.slice(i + "base64,".length);
+    //  }
+    //  const buffer = Buffer.isBuffer(latestdata) ? latestdata : Buffer.from(b64 || latestdata, "base64");
+    //  log(" After CAP_DOX Extraction- post_job + Buffer" );
+    //  //console.log("[CHECK] filename=", filename, "buffer length=", buffer?.length);
+    //   if (!buffer?.length) return req.error(400, "Empty or invalid base64 file");
 
 
-   // log(" Before CAP_DOX Extraction- post_job"  + fileBuffer)
-   // let job_id = await cap_doxlib.post_job(data.data.content, data.data.fileName, auth_token);
-
-  //  const bufferstr = Buffer.from(data.data.content.buffer, 'base64');
+    // const fileBuffer = Buffer.from(data.data.content, 'base64');
 
 
-  //      // 2. Access the underlying ArrayBuffer
-  //       const arrayBuffer = bufferstr.buffer
+    // log(" Before CAP_DOX Extraction- post_job"  + fileBuffer)
+    // let job_id = await cap_doxlib.post_job(data.data.content, data.data.fileName, auth_token);
 
-  //       // Now 'arrayBuffer' can be used for further processing,
-  //       // such as writing to a file, sending to another service, etc.
-  //       console.log("ArrayBuffer created:", arrayBuffer);
+    //  const bufferstr = Buffer.from(data.data.content.buffer, 'base64');
 
-  //       // Example: If you need a specific typed array view
-  //       const uint8Array = new Uint8Array(arrayBuffer);
+
+    //      // 2. Access the underlying ArrayBuffer
+    //       const arrayBuffer = bufferstr.buffer
+
+    //       // Now 'arrayBuffer' can be used for further processing,
+    //       // such as writing to a file, sending to another service, etc.
+    //       console.log("ArrayBuffer created:", arrayBuffer);
+
+    //       // Example: If you need a specific typed array view
+    //       const uint8Array = new Uint8Array(arrayBuffer);
 
     // let job_id = await cap_doxlib.post_job(data.data.content, data.data.fileName, auth_token);
-     let job_id = await cap_doxlib.post_job(data.data.content, data.data.fileName, auth_token);
+    let job_id = await cap_doxlib.post_job(data.data.content, data.data.fileName, auth_token);
 
 
 
@@ -257,51 +318,51 @@ module.exports = cds.service.impl(async function () {
     if (job_id) {
       let dox_output = await cap_doxlib.get_job_status(job_id, auth_token);
 
-     // log("Job Status dox_output---",  dox_output)
+      // log("Job Status dox_output---",  dox_output)
 
-     // log("Job Status dox_output---" + '${dox_output}')
+      // log("Job Status dox_output---" + '${dox_output}')
       try {
         if (dox_output.status === 'DONE') {
           log("Job Status dox_output---DONE")
-       //   log('Data.Data Headers data::--->', dox_output.extraction.headerFields);
+          //   log('Data.Data Headers data::--->', dox_output.extraction.headerFields);
 
           // code copied starts
 
-             const invoice = {};
+          
 
-      //set header
-      const invoiceHeader = dox_output.extraction.headerFields.reduce((acc, curr) => {
-        acc[curr.name] = curr.value;
-        return acc;
-      }, {});
-
-
-      log('Invoice Header Data ::--->', invoiceHeader)
-
-      //set items
-      const invoiceItems = dox_output.extraction.lineItems.reduce((acc, item) => {
-        const lineItem = item.reduce((acc, curr) => {
-          acc[curr.name] = curr.value;
-          return acc;
-        }, {});
-        acc.push(lineItem);
-        return acc;
-      }, []);
+          //set header
+          const invoiceHeader = dox_output.extraction.headerFields.reduce((acc, curr) => {
+            acc[curr.name] = curr.value;
+            return acc;
+          }, {});
 
 
-       log('Invoice Line Items Data ::--->', invoiceItems)
-      invoice["header"] = invoiceHeader;
-      invoice["items"] = invoiceItems;
+          log('Invoice Header Data ::--->', invoiceHeader)
+
+          //set items
+          const invoiceItems = dox_output.extraction.lineItems.reduce((acc, item) => {
+            const lineItem = item.reduce((acc, curr) => {
+              acc[curr.name] = curr.value;
+              return acc;
+            }, {});
+            acc.push(lineItem);
+            return acc;
+          }, []);
+
+
+          log('Invoice Line Items Data ::--->', invoiceItems)
+          invoice["header"] = invoiceHeader;
+          invoice["items"] = invoiceItems;
 
           // code ends
 
           data.data = await cap_doxlib.entity_mapping_head(dox_output.extraction.headerFields, data.data)
-        //  log('Data.Data Lineitems data::--->', dox_output.extraction.lineItems)
+          //  log('Data.Data Lineitems data::--->', dox_output.extraction.lineItems)
           let data_with_items = await cap_doxlib.entity_mapping_item(dox_output.extraction.lineItems, data.data)
           if (data_with_items) {
             data.data = data_with_items;
           }
-         // log('data_with_items::--->', data_with_items)
+          // log('data_with_items::--->', data_with_items)
         }
       }
       catch {
@@ -314,7 +375,7 @@ module.exports = cds.service.impl(async function () {
 
 
 
-
+   
 
     // const formData = new FormData()
 
@@ -337,38 +398,38 @@ module.exports = cds.service.impl(async function () {
 
     // SAP BPA Starts
 
-        //SAP BPA start
+    //SAP BPA start
 
-    log('bpa_destination -before');
+    // log('bpa_destination -before');
 
-    const bpaService = await cds.connect.to('bpa_destination'); // Replace with your destination name  
-    log('bpa_destination -after');
+    // const bpaService = await cds.connect.to('bpa_destination'); // Replace with your destination name  
+    // log('bpa_destination -after');
 
-    try {
+    // try {
 
-      var startContext = { "POId": "300001909" };
-      var workflowStartPayload = { definitionId: "com.demowf", context: startContext }
+    //   var startContext = { "POId": "300001909" };
+    //   var workflowStartPayload = { definitionId: "com.demowf", context: startContext }
 
-      // const payload = {
-      //     definitionId: 'YOUR_BPA_PROCESS_DEFINITION_ID', // Get this from your BPA process details
-      //     context: {
-      //         orderId: orderId,
-      //         amount: amount
-      //     }
-      // };
+    //   // const payload = {
+    //   //     definitionId: 'YOUR_BPA_PROCESS_DEFINITION_ID', // Get this from your BPA process details
+    //   //     context: {
+    //   //         orderId: orderId,
+    //   //         amount: amount
+    //   //     }
+    //   // };
 
-      const response = await bpaService.send('POST', '/v1/workflow-instances', JSON.stringify(workflowStartPayload), {
-        'Content-Type': 'application/json'
-      });
+    //   const response = await bpaService.send('POST', '/v1/workflow-instances', JSON.stringify(workflowStartPayload), {
+    //     'Content-Type': 'application/json'
+    //   });
 
-      log('bpa_destination -response');
+    //   log('bpa_destination -response');
 
-      log('BPA Process Triggered:', response);
-      return 'BPA process triggered successfully!';
-    } catch (error) {
-      console.error('Error triggering BPA process:', error);
-      // req.error(500, 'Failed to trigger BPA process.');
-    }
+    //   log('BPA Process Triggered:', response);
+    //   return 'BPA process triggered successfully!';
+    // } catch (error) {
+    //   console.error('Error triggering BPA process:', error);
+    //   // req.error(500, 'Failed to trigger BPA process.');
+    // }
 
 
 
@@ -379,6 +440,7 @@ module.exports = cds.service.impl(async function () {
 
     // SAP BPA Ends
 
+   // return invoice;
 
   });
 

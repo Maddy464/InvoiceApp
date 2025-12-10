@@ -1,13 +1,121 @@
 
 sap.ui.define([
     "sap/ui/core/mvc/Controller",
-    "sap/ui/model/json/JSONModel"
-], (Controller, JSONModel) => {
+    "sap/ui/model/json/JSONModel",
+    "sap/m/MessageToast"
+], (Controller, JSONModel,MessageToast) => {
     "use strict";
 
     return Controller.extend("invoiceui.controller.Upload", {
         onInit() {
         },
+        // start of changes
+
+        onUploadPress: function (oEvent) {
+            const oFileUploader = this.byId("fileUploader1");
+
+
+            // var oUploadSet = this.byId("__fileUploader");
+            //Upload image
+            var reader = new FileReader();
+            reader.onload = function (oEvent) {
+                // get an access to the content of the file
+                this.content = oEvent.currentTarget.result;
+
+                  var oFileUploader1 = this.byId("fileUploader1");
+                   
+
+                const oModel = this.getView().getModel(); // Assuming your OData V4 model is default
+
+                // Create a binding context for the action
+                const oAction = oModel.bindContext("/uploadFile(...)");
+
+                var base64String = this.content;
+
+                const [type, data] = base64String.split(';');
+                const contentType = type.split(':')[1];
+                const base64Data = data.split(',')[1];
+
+                // // Decode the Base64 string
+                // const binaryString = atob(base64Data);
+                // const len = binaryString.length;
+                // const bytes = new Uint8Array(len);
+                // for (let i = 0; i < len; i++) {
+                //     bytes[i] = binaryString.charCodeAt(i);
+                // }
+
+                // // Create a Blob object
+                // const blob = new Blob([bytes], { type: contentType });
+                // base64Content = e.target.result.split(',')[1]; // Extract Base64 part
+               // base64Content = base64Content.split(',')[1] || base64Content;
+                oAction.setParameter("file", base64Data);
+                 oAction.setParameter("fileName", oFileUploader1.oFileUpload.files[0].name);
+
+                oAction.execute().then((oResponse, data) => {
+
+                    var oActionContext = oAction.getBoundContext();
+				console.log(oActionContext.getObject()); // Access the action's return value
+                    MessageToast.show("File upload action triggered successfully!");
+                }).catch((oError) => {
+                    MessageToast.show("Error triggering file upload action: " + oError.message);
+                });
+
+
+                //  this.createfile(this.content);
+            }.bind(this);
+            reader.readAsDataURL(this.file);
+
+            // const aFiles = oFileUploader.getUploadedFile(); // Get the selected file
+
+            // if (aFiles && aFiles.length > 0) {
+            //     const oFile = aFiles[0];
+            //     const oModel = this.getView().getModel(); // Assuming your OData V4 model is default
+
+            //     // Create a binding context for the action
+            //     const oAction = oModel.bindContext("/uploadFile(...)");
+
+            //     // Set the file content as a parameter
+            //     // Note: File content needs to be read and converted to a suitable format (e.g., Base64)
+            //     // for sending as a parameter in a standard OData V4 action call.
+            //     // For direct file upload, FileUploader handles the multipart/form-data.
+            //     // However, if you are explicitly passing it as an action parameter,
+            //     // you'd typically read the file and convert it to Base64.
+
+            //     const reader = new FileReader();
+            //     reader.onload = (e) => {
+            //         const base64Content = e.target.result.split(',')[1]; // Extract Base64 part
+            //         oAction.setParameter("file", base64Content);
+
+            //         oAction.execute().then(() => {
+            //             MessageToast.show("File upload action triggered successfully!");
+            //         }).catch((oError) => {
+            //             MessageToast.show("Error triggering file upload action: " + oError.message);
+            //         });
+            //     };
+            //     reader.readAsDataURL(oFile); // Read file as Data URL to get Base64
+            // } else {
+            //     MessageToast.show("Please select a file to upload.");
+            // }
+
+
+
+        },
+
+        onFileChange: function (oEvent) {
+            // Optional: Handle file selection changes
+            const oFile = oEvent.getParameter("files")[0];
+            if (oFile) {
+                MessageToast.show("File selected: " + oFile.name);
+            }
+        },
+
+        onUploadComplete: function (oEvent) {
+            // Optional: Handle the upload complete event from FileUploader
+            const sResponse = oEvent.getParameter("response");
+            MessageToast.show("FileUploader upload complete: " + sResponse);
+        },
+
+        //end of changes
 
         _getBaseURL: function () {
             var oBaseUrl = this.getOwnerComponent().getManifestEntry("/sap.app/id").replaceAll(".", "/");
@@ -211,12 +319,43 @@ sap.ui.define([
             //*\\**************************************************************************** */
 
             // Data for CAP to create entry
-       
+
             //  var oCAPModel = this.getView().getModel();
             // this.getView().getModel()
             var sURL = "/MediaFile";
             //Create call for CAP OData Service
             // var oCAPModel = this.getModel("oCAPModel");
+
+            //let oModel1 = this.getView().getModel();
+            //              var oEntry = {
+            //                 "content": base64WithoutPrefix1,
+            //                 "mediaType": this.file.type,
+            //                 "fileName": this.file.name
+            //               };
+            //                 let oBindList1 = oModel.bindList(sURL);
+
+            //             oBindList1.create( oEntry, {
+            //     success: function(oCreatedEntry, oResponse) {
+            //         // This function is executed when the create operation is successful.
+            //         // oCreatedEntry: The newly created entity data returned by the OData service.
+            //         // oResponse: The full XHR response object.
+
+            //         sap.m.MessageToast.show("Entity created successfully!");
+            //         console.log("Created Entry:", oCreatedEntry);
+            //         console.log("Full Response:", oResponse);
+
+            //         // You can access specific properties from the created entry
+            //        // var newId = oCreatedEntry.ID; // Assuming 'ID' is a property of the created entity
+            //         // ... further processing with the returned data
+            //     },
+            //     error: function(oError) {
+            //         // This function is executed when the create operation fails.
+            //         // oError: An object containing error details.
+
+            //         sap.m.MessageBox.error("Error creating entity: " + oError.message);
+            //         console.error("Error details:", oError);
+            //     }
+            // });
 
 
             let oModel1 = this.getView().getModel();
@@ -230,7 +369,38 @@ sap.ui.define([
                 "content": base64WithoutPrefix1,
                 "mediaType": this.file.type,
                 "fileName": this.file.name
+            }, {
+                success: function (oResponse) {
+                    // This function is executed when the create operation is successful.
+                    // oCreatedEntry: The newly created entity data returned by the OData service.
+                    // oResponse: The full XHR response object.
+
+                    sap.m.MessageToast.show("Entity created successfully!");
+                    //console.log("Created Entry:", oCreatedEntry);
+                    // console.log("Full Response:", oResponse);
+
+                    // You can access specific properties from the created entry
+                    //  var newId = oCreatedEntry.ID; // Assuming 'ID' is a property of the created entity
+                    // ... further processing with the returned data
+                },
+                error: function (oError) {
+                    // This function is executed when the create operation fails.
+                    // oError: An object containing error details.
+
+                    sap.m.MessageBox.error("Error creating entity: " + oError.message);
+                    //  console.error("Error details:", oError);
+                }
             });
+
+
+
+
+
+
+
+
+
+
 
 
             //    this.getOwnerComponent().getModel("").create(sURL, oImageData, {
@@ -250,84 +420,104 @@ sap.ui.define([
         //stat of new methid
 
         onUpload: function () {
-                var that = this;
+            var that = this;
 
-                var oFileUpload = this.getView().byId("__fileUploader");
-                var oUploadedFile = oFileUpload.oFileUpload.files[0];
-                const blob = new Blob([oUploadedFile], { type: oUploadedFile.type });
+            var oFileUpload = this.getView().byId("__fileUploader");
+            var oUploadedFile = oFileUpload.oFileUpload.files[0];
+            const blob = new Blob([oUploadedFile], { type: oUploadedFile.type });
 
-                var oOptions = {
-                    extraction: {
-                        headerFields: ["purchaseOrderNumber", "netAmount", "senderAddress", "currencyCode"],
-                        lineItemFields: [
-                            "description",
-                            "netAmount",
-                            "quantity",
-                            "unitPrice",
-                            "materialNumber",
-                            "unitOfMeasure"
-                        ]
-                    },
-                    clientId: "default"
-                };
+            var oOptions = {
+                extraction: {
+                    headerFields: ["purchaseOrderNumber", "netAmount", "senderAddress", "currencyCode"],
+                    lineItemFields: [
+                        "description",
+                        "netAmount",
+                        "quantity",
+                        "unitPrice",
+                        "materialNumber",
+                        "unitOfMeasure"
+                    ]
+                },
+                clientId: "default"
+            };
 
-                var oFormData = new FormData();
-                oFormData.append("options", JSON.stringify(oOptions));
-                oFormData.append("file", blob, oUploadedFile.name);
+            var oFormData = new FormData();
+            oFormData.append("options", JSON.stringify(oOptions));
+            oFormData.append("file", blob, oUploadedFile.name);
 
-                var oScanModel = new JSONModel();
-                oScanModel.loadData("oauth/token", "grant_type=client_credentials", {
-                    "Content-Type": "application/json"
-                });
-                oScanModel.attachRequestCompleted(
-                    function (oData) {
-                        var sAccessToken = oData.getSource().getProperty("/access_token");
+            var oScanModel = new JSONModel();
+            oScanModel.loadData("oauth/token", "grant_type=client_credentials", {
+                "Content-Type": "application/json"
+            });
+            oScanModel.attachRequestCompleted(
+                function (oData) {
+                    var sAccessToken = oData.getSource().getProperty("/access_token");
 
-                        var oHeaders = {
-                            Accept: "application/json",
-                            "X-Requested-With": "XMLHttpRequest",
-                            Authorization: "Bearer " + sAccessToken
-                        };
+                    var oHeaders = {
+                        Accept: "application/json",
+                        "X-Requested-With": "XMLHttpRequest",
+                        Authorization: "Bearer " + sAccessToken
+                    };
 
-                        const requestOptions = {
-                            method: "POST",
-                            headers: oHeaders,
-                            body: oFormData
-                        };
+                    const requestOptions = {
+                        method: "POST",
+                        headers: oHeaders,
+                        body: oFormData
+                    };
 
-                        fetch("doc-info-extraction/v1/document/jobs", requestOptions)
-                            .then((response) => response.text())
-                            .then((result) => {
-                                var oResult = JSON.parse(result);
-                                var sJobId = oResult.id;
+                    fetch("doc-info-extraction/v1/document/jobs", requestOptions)
+                        .then((response) => response.text())
+                        .then((result) => {
+                            var oResult = JSON.parse(result);
+                            var sJobId = oResult.id;
 
-                                    fetch("doc-info-extraction/v1/document/jobs/" + sJobId, {
-                                        headers: {
-                                            Authorization: "Bearer " + sAccessToken
-                                        }
-                                    })
-                                        .then((response) => response.json())
-                                        .then((result) => {
-                                            var oNewClaimModel = new JSONModel({
-                                                PONumber: result.extraction.headerFields.find(
-                                                    (x) => x.name === "purchaseOrderNumber"
-                                                ).value,
-                                                Vendor: result.extraction.headerFields.find(
-                                                    (x) => x.name === "senderAddress"
-                                                ).value,
-                                                Amount: result.extraction.headerFields.find(
-                                                    (x) => x.name === "netAmount"
-                                                ).rawValue,
-                                                Receipt: result.fileName
-                                            });
-                                            that.getView().setModel(oNewClaimModel);
-                                        })
-                                        .catch((error) => console.error(error));
+                            fetch("doc-info-extraction/v1/document/jobs/" + sJobId, {
+                                headers: {
+                                    Authorization: "Bearer " + sAccessToken
+                                }
                             })
-                            .catch((error) => console.error(error));
-                    }.bind(this)
-                );
-            },
+                                .then((response) => response.json())
+                                .then((result) => {
+                                    var oNewClaimModel = new JSONModel({
+                                        PONumber: result.extraction.headerFields.find(
+                                            (x) => x.name === "purchaseOrderNumber"
+                                        ).value,
+                                        Vendor: result.extraction.headerFields.find(
+                                            (x) => x.name === "senderAddress"
+                                        ).value,
+                                        Amount: result.extraction.headerFields.find(
+                                            (x) => x.name === "netAmount"
+                                        ).rawValue,
+                                        Receipt: result.fileName
+                                    });
+                                    that.getView().setModel(oNewClaimModel);
+                                })
+                                .catch((error) => console.error(error));
+                        })
+                        .catch((error) => console.error(error));
+                }.bind(this)
+            );
+        },
+
+
+        //start of methods
+
+        // In your Fiori Elements controller
+        // onUploadPress: function () {
+        //     const oFileUploader = this.byId("fileUploader1");
+        //     oFileUploader.upload(); // Triggers the upload
+        // },
+
+        // onUploadComplete: function (oEvent) {
+        //     const sResponse = oEvent.getParameter("response");
+        //     // Handle the response from the CAPM action
+        //     console.log("Upload complete. Response:", sResponse);
+        //     sap.m.MessageToast.show("File upload status: " + sResponse);
+        //     // You might need to refresh the Fiori app data if the upload affects it
+        // }
+
+
+        //end of methoids
 
 
 

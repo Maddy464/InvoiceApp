@@ -7,7 +7,7 @@ using { Media.db as db } from '../db/media';
 
     entity MediaFile as projection on db.MediaFile;
   
-
+    action uploadFile(file: LargeBinary,fileName:String) returns { invoice: {}};
   
   }
 

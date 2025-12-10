@@ -82,6 +82,8 @@ async function setbody(pdf, fileName, auth_token) {
 
 
   let mydata = new FormData();
+
+//  log("Form Data" , pdf);
 //  fileName = './' + fileName;
 
 //  log(" setbody CAP_DOX Extraction- post_job" + fileName);
@@ -127,12 +129,49 @@ async function setbody(pdf, fileName, auth_token) {
 
       //log(" CAP_DOX Extraction- buffer" + buffer);
      // pdf = await streamToBuffer(pdf);
-        pdf = await buffer(pdf);
-        await createPdfFile(pdf, fileName);
-      mydata.append('file', fs.createReadStream(fileName));
+
+     // one solution
+      //  pdf = await buffer(pdf);
+      //  await createPdfFile(pdf, fileName);
+      // mydata.append('file', fs.createReadStream(fileName));
+
+     //
+
+     // second solution
+
+
+      // await createPdfFile(pdf, fileName);
+      // mydata.append('file', fs.createReadStream(fileName));
+        //  fileName = './' + fileName;
+        //  mydata.append('file', pdf,fileName);
+
+      // third solution
+
+       // pdf = await buffer(pdf);
+    //   log(" sett bosy-createPdfFile" );
+     //  var buffer = Buffer.from(pdf, 'base64');   
+       log(" sett bosy-createPdfFile after" );  
+     //  await createPdfFile(pdf, fileName);
+    //  mydata.append('file', fs.createReadStream(fileName));
+
+
+     // 4 solution
+
+      const buffer = Buffer.from(pdf, 'base64');
+        mydata.append('file', buffer,fileName);
+
+
+       // pdf = await buffer(pdf);
+
+       //const buffer = Buffer.from(pdf, 'base64');
+        
      // mydata.append('file', buffer,fileName);
      // mydata.append('file', buffer,fileName);
      //  mydata.append('file', pdfn,fileName);
+
+     // 4 solution
+
+
 
   cap_dox_job = {
     "schemaId": await get_schema(auth_token),
