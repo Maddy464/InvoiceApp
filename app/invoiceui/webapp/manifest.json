@@ -98,13 +98,53 @@
           "target": [
             "TargetUpload"
           ]
+        },
+        {
+          "name": "RouteInvoice",
+          "pattern": "RouteInvoice",
+          "target": [
+            "TargetInvoice"
+          ]
+        },
+         {
+          "name": "RouteWorkList",
+          "pattern": "RouteWorkList",
+          "target": [
+            "TargetWorkList"
+          ]
+        },
+        {
+          "name": "RouteDetail",
+          "pattern": "RouteDetail/{ID}/:?query:",
+          "target": [
+            "TargetDetail"
+          ]
         }
       ],
       "targets": {
         "TargetUpload": {
           "id": "Upload",
-          "name": "Upload"
+          "name": "Upload",
+          "level": 1
+        },
+        "TargetInvoice": {
+          "id": "RouteInvoice",
+          "name": "InvoiceData",
+          "level": 2
+        },
+
+        "TargetWorkList": {
+          "id": "RouteWorkList",
+          "name": "Worklist",
+          "level": 3
+        },
+         "TargetDetail": {
+          "id": "RouteDetail",
+          "name": "Detail",
+          "level": 4
         }
+
+
       }
     },
     "rootView": {

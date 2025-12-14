@@ -41,7 +41,7 @@ const { buffer } = require('stream/consumers');
 //       "tenantuiurl": "https://8d33ddbbtrial.us10-trial.doc.cloud.sap"
 //     }
 
-const cap_dox_key = {
+const cap_dox_key =  {
   "sap.cloud.service": "com.sap.apps.documentinformationextraction",
   "saasregistryenabled": true,
   "html5-apps-repo": {
@@ -50,31 +50,33 @@ const cap_dox_key = {
   "uaa": {
     "tenantmode": "shared",
     "sburl": "https://internal-xsuaa.authentication.us10.hana.ondemand.com",
-    "subaccountid": "33ab8d5a-8527-41ba-8d11-9d6442d63acf",
+    "subaccountid": "02bcce83-7a01-471e-9499-a682320e6108",
     "credential-type": "binding-secret",
-    "clientid": "sb-7e3aa7e5-d098-4ae5-8f40-9ebbd4489b96!b516043|dox-xsuaa-std-trial!b10844",
-    "xsappname": "7e3aa7e5-d098-4ae5-8f40-9ebbd4489b96!b516043|dox-xsuaa-std-trial!b10844",
-    "clientsecret": "d7a0e5c4-1b5e-493a-a89a-d864a5c92275$KwLMZmIleg0u3FS2tl4_FiZFNtbHldxOWhuvYqKSSJw=",
-    "serviceInstanceId": "7e3aa7e5-d098-4ae5-8f40-9ebbd4489b96",
-    "url": "https://0323a56btrial.authentication.us10.hana.ondemand.com",
+    "clientid": "sb-aedb8465-85f9-434b-81e6-0b54565dffb7!b567119|dox-xsuaa-std-trial!b10844",
+    "xsappname": "aedb8465-85f9-434b-81e6-0b54565dffb7!b567119|dox-xsuaa-std-trial!b10844",
+    "clientsecret": "96ca24fe-ab3a-4976-bc51-e1403cd32c2a$6ajIdu5xOXjKqsVgPcpzUq8rDemtpKXNk98SnCmfXXM=",
+    "serviceInstanceId": "aedb8465-85f9-434b-81e6-0b54565dffb7",
+    "url": "https://4665dffdtrial.authentication.us10.hana.ondemand.com",
     "uaadomain": "authentication.us10.hana.ondemand.com",
-    "verificationkey": "-----BEGIN PUBLIC KEY-----\nMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAvV9W9zOZlKLQdR7PMQyK\nARl3VzlxnsGFb3cZWmH9hgEQkU4I59LQhONHUj60D5eLeZOF3G2irpmo0hzW4NU4\nekJheO+KN+zIkqZuDH/6IyRmQXW2LsxSNENw/3D3vtHWnHEz6sfEgNkUSro3ctEE\nYNJ0bjeSvU5sKCbtm6LKG7Sr5Rgv/IN67X/JiNvCKkPHQbNqpFRTI+CgLPjBl3mN\nA4N2KIjS5/GpomrQKRGLXzlRWsoxdPC+307GdzUTmqpRyReSJ7qSPRcM56fDRKW5\nidZd00crsdwHBZbEFKwtEJNbma/e4V8pSQUkw6Q8Vv49RDrbikQx+loB0vbLFEuA\n9wIDAQAB\n-----END PUBLIC KEY-----",
+    "verificationkey": "-----BEGIN PUBLIC KEY-----\nMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEArewE27YikOO0uwHI1vM+\n1EsOi9n1cVT9Z31nEDnXgV5h2IhydYSZg8fGqHrHQME+kRuSrA2kJADMCERaY2P6\nOl44mlZPj16gYit8DtQIVkYlXpP4m6EGvWOQyXsSIiW2hkbOPL00B49DscHlNYs8\nlob0cNL0gRt2iCmV+9mpBoSCKIdS7x3EDtaxgMph4+mbNY1yS9EFrfbaaN6wcQiq\nYcOBKVGvjMxkqCjMxzb1Ql/gnnJ/T+JKuOprQPuYHICobUHrKgb4Q4OZfghKwJn7\nsyXT+5VRhrSg6V74C95pU8wfihaOSMdvtqkPR8erGzV53cTXOZ1MhRmkGsTD+IHE\n2wIDAQAB\n-----END PUBLIC KEY-----",
     "apiurl": "https://api.authentication.us10.hana.ondemand.com",
-    "identityzone": "0323a56btrial",
-    "identityzoneid": "33ab8d5a-8527-41ba-8d11-9d6442d63acf",
-    "tenantid": "33ab8d5a-8527-41ba-8d11-9d6442d63acf",
-    "zoneid": "33ab8d5a-8527-41ba-8d11-9d6442d63acf"
+    "identityzone": "4665dffdtrial",
+    "identityzoneid": "02bcce83-7a01-471e-9499-a682320e6108",
+    "tenantid": "02bcce83-7a01-471e-9499-a682320e6108",
+    "zoneid": "02bcce83-7a01-471e-9499-a682320e6108"
   },
   "url": "https://aiservices-trial-dox.cfapps.us10.hana.ondemand.com",
   "dwcreuseservice": true,
   "swagger": "/document-information-extraction/v1/",
+  "resturl": "/document-information-extraction/v1/",
+  "odataurl": "/document-ai/v1/",
   "endpoints": {
     "backend": {
       "url": "https://aiservices-trial-dox.cfapps.us10.hana.ondemand.com",
       "timeout": 30000
     }
   },
-  "tenantuiurl": "https://0323a56btrial.us10-trial.doc.cloud.sap"
+  "tenantuiurl": "https://4665dffdtrial.us10-trial.doc.cloud.sap"
 }
 
 

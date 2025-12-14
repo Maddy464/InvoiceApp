@@ -1,0 +1,96 @@
+<mvc:View controllerName="invoiceui.controller.InvoiceData"  displayBlock="true"
+          xmlns:mvc="sap.ui.core.mvc" 
+          xmlns:u="sap.ui.unified"
+          	xmlns:l="sap.ui.layout"	
+            xmlns:core="sap.ui.core"
+          xmlns="sap.m">
+
+        <Page id="page_id" title="{i18n>title}" 	showNavButton="true" navButtonPress=".onNavBack"
+	                       	 class="sapUiResponsiveContentPadding">
+
+                           <content>
+						<SplitApp id="splitappid" masterButtonText="Master" masterNavigate="" afterMasterNavigate="" masterButton="" detailNavigate="">
+							<masterPages>
+								<Page id="masterpageid" title="Employee Basic Info" titleLevel="Auto" showNavButton="true" showHeader="true" showSubHeader="true"
+								 enableScrolling="true"  navButtonPress="onNavBack">
+									<content>
+										<List id="emplist" items="{/InvoiceHeaders}" headerText="Invoices"  footerText="End of the List" noDataText="No Employees"
+											showNoData="true"	updateFinished="onListUpdateFinished">
+											<items>
+												<ObjectListItem id="_IDGenObjectListItem" type="Navigation" title="{purchaseOrderNumber}" number="{grossAmount}"  intro="{dueDate}" press="onObjectItemPress">
+													<attributes>
+														<ObjectAttribute id="_IDGenObjectAttribute" title="" text="{documentNumber}"></ObjectAttribute>
+													</attributes>
+													<!-- <firstStatus>
+														<ObjectStatus id="_IDGenObjectStatus" title="{exp}" text="{designation}"></ObjectStatus>
+													</firstStatus>
+													<secondStatus>
+														<ObjectStatus id="_IDGenObjectStatus1" title="{city}" text="{country}"></ObjectStatus>
+													</secondStatus> -->
+												</ObjectListItem>
+											</items>
+											<headerToolbar>
+												<Toolbar id="_IDGenToolbar">
+													<content>
+														<!-- <Title id="_IDGenTitle" text="Employees" title="Search"></Title> -->
+														 <Button id="_IDGenButton212" text="Upload" press="onListRefresh"/>
+														<ToolbarSpacer id="_IDGenToolbarSpacer123"/>
+														<SearchField id="_IDGenSearchField" search="onSearch" width="50%"></SearchField>
+
+													</content>
+												</Toolbar>
+											</headerToolbar>
+										</List>
+									</content>
+								</Page>
+							</masterPages>
+							<detailPages>
+								<Page id="detailpageid" title="Employee Project Information" titleLevel="Auto" showNavButton="true" showHeader="true" showSubHeader="true"
+									 navButtonTooltip="" enableScrolling="true" navButtonPress="">
+									<content>
+
+                  <Table id="items1"  items="{path:''}"
+		 inset="true">
+			<columns>
+				<Column id="_IDGenColumnn1">
+				<Text id="_IDGenTextn1" text="{i18n>description}" />
+			</Column>
+			<Column id="_IDGenColumn1n1">
+				<Text id="_IDGenText1n1" text="{i18n>quantity}" />
+			</Column>
+			<Column id="_IDGenColumn2n1">
+				<Text id="_IDGenText2n1" text="{i18n>unitPrice}" />
+			</Column>
+			<Column id="_IDGenColumn3n1">
+				<Text id="_IDGenText3n1" text="{i18n>amount}" />
+			</Column>
+		</columns>
+		<items>
+			<ColumnListItem id="_IDGenColumnListItem11"	type="Navigation"
+							press=".onPressInvoice">
+				<cells>
+				    <Input id="_IDGenInputn15" value="{invoice>description}" editable="{viewModel>/editable}"/>
+					<Input id="_IDGenInput1n15" value="{invoice>quantity}" editable="{viewModel>/editable}"/>
+					<Input id="_IDGenInput2n16" value="{invoice>unitPrice}" editable="{viewModel>/editable}"/>
+					<Input id="_IDGenInput3n17" value="{invoice>netAmount}" editable="{viewModel>/editable}"/>
+									</cells>
+			</ColumnListItem>
+		</items>
+	</Table>
+
+										<!-- <List id="projectlistid" items="{InvoiceItems}">
+											<items>
+												<StandardListItem id="_IDGenStandardListItem1" title="{projectid}" description="{projectname}"></StandardListItem>
+											</items>
+										</List> -->
+
+									</content>
+								</Page>
+							</detailPages>
+						</SplitApp>
+					</content>
+
+        
+
+          </Page>
+          </mvc:View>

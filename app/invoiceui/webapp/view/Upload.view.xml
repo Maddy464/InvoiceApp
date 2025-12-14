@@ -63,6 +63,10 @@
     <Button id="_IDGenButton2" text="Upload" press="onUploadPress"/>
     </VBox>
 
+     <Button id="_IDGenButton3" text="Navigate To Invoice" press="onNavigateToInvoiceData"/>
+
+      <Button id="_IDGenButton4" text="Navigate To Trigger WF" press="onNavigateToWfTrigger"/>
+
    <core:Fragment id="_IDGenFragment" fragmentName="invoiceui.fragment.ObjectPage" type="XML" />
 
 

@@ -1,0 +1,142 @@
+<mvc:View
+	controllerName="invoiceui.controller.Detail"
+	xmlns="sap.m"
+	xmlns:semantic="sap.f.semantic"
+	xmlns:mvc="sap.ui.core.mvc"
+	xmlns:core="sap.ui.core"
+	xmlns:l="sap.ui.layout">
+	<semantic:SemanticPage
+		id="page_detail"
+		busy="{detailView>/busy}"
+		
+		busyIndicatorDelay="{detailView>/delay}"
+		core:require="{
+			formatMessage: 'sap/base/strings/formatMessage',
+			DateType: 'sap/ui/model/type/Date'
+		}">
+		<semantic:titleHeading>
+			<Title id="_IDGenTitle2"
+				text="{
+					parts: [
+						'i18n>commonItemTitle',
+						'OrderID'
+					],
+					formatter: 'formatMessage'
+				}"/>
+		</semantic:titleHeading>
+		<semantic:headerContent>
+			<l:HorizontalLayout id="_IDGenHorizontalLayout">
+				<l:VerticalLayout id="_IDGenVerticalLayout" class="sapUiMediumMarginEnd">
+				 <Button id="_IDGenButton49" text="Navigate To Trigger WF" press="onNavBack"/>
+					<ObjectAttribute id="_IDGenObjectAttribute1"
+						title="{i18n>commonCustomerName}"
+						text="{senderName}"/>
+					<!-- <ObjectAttribute id="_IDGenObjectAttribute2"
+						title="{i18n>detailOrderDate}"
+						text="{
+							path: 'OrderDate',
+							type: 'DateType',
+							formatOptions: { style: 'medium' }
+						}"/> -->
+					<!-- <ObjectAttribute id="_IDGenObjectAttribute3"
+						title="{i18n>commonItemShipped}"
+						text="{= ${deliveryDate} ?
+								${
+									path: 'deliveryDate',
+									type: 'DateType',
+									formatOptions: { style: 'medium' }
+								}
+							:${i18n>commonItemNotYetShipped} }"/> -->
+				</l:VerticalLayout>
+				<l:VerticalLayout id="_IDGenVerticalLayout1">
+					<Label id="_IDGenLabel" text="{i18n>priceText}"/>
+					<!-- <ObjectNumber id="_IDGenObjectNumber"
+						number="{
+							parts: [
+								{path:'detailView>/totalOrderAmount'},
+								{path:'detailView>/currency'}
+							],
+							type: 'sap.ui.model.type.Currency',
+							formatOptions: {
+								showMeasure: false
+							}
+						}"
+						unit="{detailView>/currency}"/> -->
+				</l:VerticalLayout>
+			</l:HorizontalLayout>
+		</semantic:headerContent>
+		<semantic:content>
+			<l:VerticalLayout id="_IDGenVerticalLayout2">
+				<IconTabBar
+					id="iconTabBar123"
+					headerBackgroundDesign="Transparent"
+					select=".onTabSelect"
+					selectedKey="{detailView>/selectedTab}">
+					<items>
+						<IconTabFilter
+							id="iconTabFilterShipping"
+							icon="sap-icon://shipping-status"
+							tooltip="{i18n>detailIconTabBarShipping}"
+							key="shipping">
+						</IconTabFilter>
+						<IconTabFilter
+							id="iconTabFilterProcessor"
+							icon="sap-icon://employee"
+							tooltip="{i18n>detailIconTabBarProcessor}"
+							key="processor">
+						</IconTabFilter>
+					</items>
+				</IconTabBar>
+		                          <Table id="items12"  items="{path:''}"
+		 inset="true">
+			<columns>
+				<Column id="_IDGenColumnn12">
+				<Text id="_IDGenTextn12" text="{i18n>description}" />
+			</Column>
+			<Column id="_IDGenColumn1n12">
+				<Text id="_IDGenText1n12" text="{i18n>quantity}" />
+			</Column>
+			<Column id="_IDGenColumn2n12">
+				<Text id="_IDGenText2n12" text="{i18n>unitPrice}" />
+			</Column>
+			<Column id="_IDGenColumn3n12">
+				<Text id="_IDGenText3n12" text="{i18n>amount}" />
+			</Column>
+		</columns>
+		<items>
+			<ColumnListItem id="_IDGenColumnListItem112" >
+				<cells>
+				    <Input id="_IDGenInputn152" value="{description}" editable="{viewModel>/editable}"/>
+					<Input id="_IDGenInput1n152" value="{quantity}" editable="{viewModel>/editable}"/>
+					<Input id="_IDGenInput2n162" value="{unitPrice}" editable="{viewModel>/editable}"/>
+					<Input id="_IDGenInput3n172" value="{netAmount}" editable="{viewModel>/editable}"/>
+									</cells>
+			</ColumnListItem>
+		</items>
+	</Table>
+			</l:VerticalLayout>
+		</semantic:content>
+		<semantic:sendEmailAction>
+			<semantic:SendEmailAction
+				id="shareEmail123"
+				press=".onSendEmailPress"/>
+		</semantic:sendEmailAction>
+		<semantic:closeAction>
+			<semantic:CloseAction
+				id="closeColumn"
+				press=".onCloseDetailPress"/>
+		</semantic:closeAction>
+		<semantic:fullScreenAction>
+			<semantic:FullScreenAction
+				id="enterFullScreen"
+				visible="{= !${device>/system/phone} &amp;&amp; !${appView>/actionButtonsInfo/midColumn/fullScreen}}"
+				press="toggleFullScreen"/>
+		</semantic:fullScreenAction>
+		<semantic:exitFullScreenAction>
+			<semantic:ExitFullScreenAction
+				id="exitFullScreen"
+				visible="{= !${device>/system/phone} &amp;&amp; ${appView>/actionButtonsInfo/midColumn/fullScreen}}"
+				press="toggleFullScreen"/>
+		</semantic:exitFullScreenAction>
+	</semantic:SemanticPage>
+</mvc:View>

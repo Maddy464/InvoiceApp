@@ -1,23 +1,4 @@
-# Getting Started
 
-Welcome to your new project.
-
-It contains these folders and files, following our recommended project layout:
-
-File or Folder | Purpose
----------|----------
-`app/` | content for UI frontends goes here
-`db/` | your domain models and data go here
-`srv/` | your service models and code go here
-`package.json` | project metadata and configuration
-`readme.md` | this getting started guide
-
-
-## Next Steps
-
-- Open a new terminal and run `cds watch`
-- (in VS Code simply choose _**Terminal** > Run Task > cds watch_)
-- Start adding content, for example, a [db/schema.cds](db/schema.cds).
 
 
 ## Learn More
@@ -33,6 +14,38 @@ https://www.google.com/search?q=trigger+sap+capm+action+with+parameters+uisng+od
 
 ![alt text]({3A5442E4-0825-464C-B3D7-1CA7DB41567E}.png)
 
+https://github.com/SAP-samples/cap-hana-exercises-codejam/blob/main/
+
+https://community.sap.com/t5/technology-blog-posts-by-members/developing-cap-based-fiori-app-draft-enabled-with-node-js-and-vscode/ba-p/13551654
+
+https://github.com/SAP-samples/fiori-elements-feature-showcase
 
 
 
+[text](../sapui5-development-learning-journey)
+
+<List
+		items="{/ProductCollection}"
+		headerText="Products">
+		<ObjectListItem
+			title="{Name}"
+			type="Active"
+			press="onListItemPress"
+			number="{
+				parts:[{path:'Price'},{path:'CurrencyCode'}],
+				type: 'sap.ui.model.type.Currency',
+				formatOptions: {showMeasure: false}
+			}"
+			numberUnit="{CurrencyCode}">
+			<firstStatus>
+				<ObjectStatus
+					text="{Status}"
+					state="{
+						path: 'Status',
+						formatter: '.formatter.status'
+					}" />
+			</firstStatus>
+			<ObjectAttribute text="{WeightMeasure} {WeightUnit}" />
+			<ObjectAttribute text="{Width} x {Depth} x {Height} {DimUnit}" />
+		</ObjectListItem>
+	</List>

@@ -57,7 +57,7 @@ entity InvoiceHeaders {
         senderState              : String;
         senderDistrict           : String;
         senderExtraAddressPart   : String;
-        to_items                 : Association to many InvoiceItems
+        to_items                 : Composition of  many InvoiceItems
                                        on to_items.parent = $self;
 }
 

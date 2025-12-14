@@ -1,0 +1,144 @@
+<mvc:View
+	controllerName="invoiceui.controller.Worklist"
+	xmlns="sap.m"
+	xmlns:mvc="sap.ui.core.mvc"
+	xmlns:semantic="sap.f.semantic">
+
+	<semantic:SemanticPage
+		id="page_wl1"
+		headerPinnable="false"
+		toggleHeaderOnTitleClick="false"
+		showFooter="true" 
+        >
+
+		<semantic:titleHeading>
+			<Title id="_IDGenTitle1" text="{i18n>worklistTitle}" />
+			
+		
+		</semantic:titleHeading>
+
+		<semantic:headerContent>
+			<IconTabBar
+				id="iconTabBar"
+				select=".onQuickFilter"
+				expandable="false">
+				<items>
+					<IconTabFilter id="_IDGenIconTabFilter"
+						key="all"
+						showAll="true"
+						count="{worklistView>/countAll}"
+						text="{i18n>WorklistFilterProductsAll}"/>
+					<IconTabSeparator id="_IDGenIconTabSeparator"/>
+					<IconTabFilter id="_IDGenIconTabFilter1"
+						key="inStock"
+						icon="sap-icon://message-success"
+						iconColor="Positive"
+						count="{worklistView>/inStock}"
+						text="{i18n>WorklistFilterInStock}"/>
+					<!-- <IconTabFilter id="_IDGenIconTabFilter2"
+						key="shortage"
+						icon="sap-icon://message-warning"
+						iconColor="Critical"
+						count="{worklistView>/shortage}"
+						text="{i18n>WorklistFilterShortage}"/>
+					<IconTabFilter id="_IDGenIconTabFilter3"
+						key="outOfStock"
+						icon="sap-icon://message-error"
+						iconColor="Negative"
+						count="{worklistView>/outOfStock}"
+						text="{i18n>WorklistFilterOutOfStock}"/> -->
+				</items>
+				<content>
+
+				<Button id="_IDGenButton43" text="Nav Back" press="onNavBack"/>
+					<Table
+						id="table"
+						busyIndicatorDelay="{worklistView>/tableBusyDelay}"
+						growing="true"
+						growingScrollToLoad="true"
+						noDataText="{worklistView>/tableNoDataText}"
+						updateFinished=".onUpdateFinished"
+						width="auto"
+						mode="MultiSelect"
+						items="{
+							path: '/InvoiceHeaders',
+							sorter: {
+								path: 'purchaseOrderNumber',
+								descending: false
+							},
+							parameters: {
+								'expand': 'to_items'
+							}
+						}">
+					<headerToolbar>
+						<Toolbar id="_IDGenToolbar1">
+							<Title
+								id="tableHeader"
+								text="{worklistView>/worklistTableTitle}"/>
+							<ToolbarSpacer id="_IDGenToolbarSpacer1"/>
+							<SearchField
+								id="searchField"
+								tooltip="{i18n>worklistSearchTooltip}"
+								search=".onSearch"
+								width="auto">
+							</SearchField>
+						</Toolbar>
+					</headerToolbar>
+
+						<columns>
+		
+
+			<Column id="_IDGenColumn111">
+				<Text id="_IDGenText111" text="{i18n>documentNumber}" />
+			</Column>
+			<Column id="_IDGenColumn11">
+				<Text id="_IDGenText11" text="{i18n>grossAmount}" />
+			</Column>
+			<Column id="_IDGenColumn21">
+				<Text id="_IDGenText21" text="{i18n>paymentTerms}" />
+			</Column>
+			<Column id="_IDGenColumn311">
+				<Text id="_IDGenText311" text="{i18n>netAmount}" />
+			</Column>
+			<Column id="_IDGenColumn312">
+				<Text id="_IDGenText313" text="{i18n>purchaseOrderNumber}" />
+			</Column>
+			<Column id="_IDGenColumn314">
+				<Text id="_IDGenText315" text="{i18n>deliveryNoteNumber}" />
+			</Column>
+		</columns>
+		<items>
+			<ColumnListItem id="_IDGenColumnListItem1n1"	type="Navigation"
+							press=".onPressInvoicewf">
+				<cells>
+					
+					<Input id="_IDGenInput111" value="{documentNumber}" editable="{viewModel>/editable}"/>
+					<Input id="_IDGenInput11" value="{grossAmount}" editable="{viewModel>/editable}"/>
+					<Input id="_IDGenInput21" value="{paymentTerms}" editable="{viewModel>/editable}"/>
+					<Input id="_IDGenInput31" value="{netAmount}" editable="{viewModel>/editable}"/>
+					<Input id="_IDGenInput211" value="{purchaseOrderNumber}" editable="{viewModel>/editable}"/>
+					<Input id="_IDGenInput311" value="{deliveryNoteNumber}" editable="{viewModel>/editable}"/>
+
+				</cells>
+			</ColumnListItem>
+		</items>
+	</Table>
+
+				</content>
+			</IconTabBar>
+		</semantic:headerContent>
+		<semantic:sendEmailAction>
+			<semantic:SendEmailAction id="shareEmail" press=".onShareEmailPress"/>
+		</semantic:sendEmailAction>
+		
+		<semantic:positiveAction>
+			<semantic:PositiveAction id="_IDGenPositiveAction" text="{i18n>TableProductsReorder}" press=".onUpdateStockObjects"/>
+		</semantic:positiveAction>
+		<semantic:negativeAction>
+			<semantic:NegativeAction id="_IDGenNegativeAction" text="{i18n>TablePorductsUnlist}" press=".onUnlistObjects"/>
+		</semantic:negativeAction>
+
+
+
+	</semantic:SemanticPage>
+</mvc:View>
