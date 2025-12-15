@@ -24,6 +24,20 @@
           "odataVersion": "4.0"
         }
       }
+    },
+    "crossNavigation": {
+      "inbounds": {
+        "Invoices-process": {
+          "semanticObject": "Invoices",
+          "action": "process",
+          "title": "{{Invoices-process.flpTitle}}",
+          "subTitle": "{{Invoices-process.flpSubtitle}}",
+          "signature": {
+            "parameters": {},
+            "additionalParameters": "allowed"
+          }
+        }
+      }
     }
   },
   "sap.ui": {
@@ -63,9 +77,9 @@
         }
       },
       "options": {
-				"type": "sap.ui.model.json.JSONModel",
-				"uri": "model/Options.json"
-			},
+        "type": "sap.ui.model.json.JSONModel",
+        "uri": "model/Options.json"
+      },
       "": {
         "dataSource": "mainService",
         "preload": true,
@@ -110,7 +124,7 @@
             "TargetInvoice"
           ]
         },
-         {
+        {
           "name": "RouteWorkList",
           "pattern": "RouteWorkList",
           "target": [
@@ -136,19 +150,16 @@
           "name": "InvoiceData",
           "level": 2
         },
-
         "TargetWorkList": {
           "id": "RouteWorkList",
           "name": "Worklist",
           "level": 3
         },
-         "TargetDetail": {
+        "TargetDetail": {
           "id": "RouteDetail",
           "name": "Detail",
           "level": 4
         }
-
-
       }
     },
     "rootView": {

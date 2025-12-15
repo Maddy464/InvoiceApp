@@ -29,6 +29,20 @@
           "odataVersion": "4.0"
         }
       }
+    },
+    "crossNavigation": {
+      "inbounds": {
+        "Invoices-process": {
+          "semanticObject": "Invoices",
+          "action": "process",
+          "title": "{{Invoices-process.flpTitle}}",
+          "subTitle": "{{Invoices-process.flpSubtitle}}",
+          "signature": {
+            "parameters": {},
+            "additionalParameters": "allowed"
+          }
+        }
+      }
     }
   },
   "sap.ui": {

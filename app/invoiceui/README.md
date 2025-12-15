@@ -32,3 +32,15 @@ http://localhost:4004/invoiceui/webapp/index.html
 1. Active NodeJS LTS (Long Term Support) version and associated supported NPM version.  (See https://nodejs.org)
 
 
+https://community.sap.com/t5/technology-blog-posts-by-members/access-fiori-apps-via-sap-build-work-zone-site-with-federated-sap-s-4hana/ba-p/13558780
+
+https://discovery-center.cloud.sap/card/56a04459-4724-4f3f-bcb4-37c3fa8072e7
+
+https://help.sap.com/docs/build-work-zone-standard-edition/sap-build-work-zone-standard-edition/expose-html5-applications-in-sap-build-work-zone-standard-edition
+
+https://help.sap.com/docs/build-work-zone-standard-edition/sap-build-work-zone-standard-edition/developing-cloud-foundry-applications-with-notifications
+
+https://developers.sap.com/tutorials/workzone-enrich-3-webdynpro-app.html
+
+
+

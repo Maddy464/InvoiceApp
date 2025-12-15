@@ -326,7 +326,73 @@ sap.ui.define([
 				ID : oEvent.getSource().getBindingContext().getProperty('ID')
 			});  
 
-	}
+	},
+
+	/**
+		 * Error and success handler for the unlist action.
+		 * @param {string} sProductId the product ID for which this handler is called
+		 * @param {boolean} bSuccess true in case of a success handler, else false (for error handler)
+		 * @param {number} iRequestNumber the counter which specifies the position of this request
+		 * @param {number} iTotalRequests the number of all requests sent
+		 * @private
+		 */
+
+		_handleUnlistActionResult : function (sProductId, bSuccess, iRequestNumber, iTotalRequests){
+			// we could create a counter for successful and one for failed requests
+			// however, we just assume that every single request was successful and display a success message once
+			if (iRequestNumber === iTotalRequests) {
+				MessageToast.show(this.getModel("i18n").getResourceBundle().getText("StockRemovedSuccessMsg", [iTotalRequests]));
+			}
+		},
+
+		/**
+		 * Event handler for the unlist button. Will delete the
+		 * product from the (local) model.
+		 * @public
+		 */
+
+		onUnlistObjects: function() {
+			var aSelectedProducts, i, sPath, oProduct, oProductId;
+
+			aSelectedProducts = this.byId("table").getSelectedItems();
+			if (aSelectedProducts.length) {
+				for (i = 0; i < aSelectedProducts.length; i++) {
+					oProduct = aSelectedProducts[i];
+					oProductId = oProduct.getBindingContext().getProperty("ProductID");
+					sPath = oProduct.getBindingContext().getPath();
+					this.getModel().remove(sPath, {
+						success : this._handleUnlistActionResult.bind(this, oProductId, true, i + 1, aSelectedProducts.length),
+						error : this._handleUnlistActionResult.bind(this, oProductId, false, i + 1, aSelectedProducts.length)
+					});
+				}
+			} else {
+				this._showErrorMessage(this.getModel("i18n").getResourceBundle().getText("TableSelectProduct"));
+			}
+		},
+
+				/**
+		 * Event handler for the reorder button. Will reorder the
+		 * product by updating the (local) model
+		 * @public
+		 */
+		onUpdateStockObjects: function() {
+			var aSelectedProducts, i, sPath, oProductObject;
+
+			aSelectedProducts = this.byId("table").getSelectedItems();
+			if (aSelectedProducts.length) {
+				for (i = 0; i < aSelectedProducts.length; i++) {
+					sPath = aSelectedProducts[i].getBindingContext().getPath();
+					oProductObject = aSelectedProducts[i].getBindingContext().getObject();
+					oProductObject.UnitsInStock += 10;
+					this.getModel().update(sPath, oProductObject, {
+						success : this._handleReorderActionResult.bind(this, oProductObject.ProductID, true, i + 1, aSelectedProducts.length),
+						error : this._handleReorderActionResult.bind(this, oProductObject.ProductID, false, i + 1, aSelectedProducts.length)
+					});
+				}
+			} else {
+				this._showErrorMessage(this.getModel("i18n").getResourceBundle().getText("TableSelectProduct"));
+			}
+		}
 
 
 		
