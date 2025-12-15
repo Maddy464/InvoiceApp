@@ -41,7 +41,7 @@ const { buffer } = require('stream/consumers');
 //       "tenantuiurl": "https://8d33ddbbtrial.us10-trial.doc.cloud.sap"
 //     }
 
-const cap_dox_key =  {
+const cap_dox_key = {
   "sap.cloud.service": "com.sap.apps.documentinformationextraction",
   "saasregistryenabled": true,
   "html5-apps-repo": {
@@ -81,32 +81,18 @@ const cap_dox_key =  {
 
 
 const cap_dox_config = {
-      "schemaName": "SAP_invoice_schema",
-      "clientId": "default",
-      "documentType": "invoice"
-    };
+  "schemaName": "SAP_invoice_schema",
+  "clientId": "default",
+  "documentType": "invoice"
+};
+
+// const cap_dox_config = {
+//       "schemaName": "Custom_petro_schema",
+//       "clientId": "default",
+//       "documentType": "custom"
+//     };
 
 async function createPdfFile(pdfBuffer, outputPath) {
-
-
- /// pdfBuffer = decode(pdfBuffer);
-
-  
-
-
-   //pdfBuffer = pdfBuffer.replace(/^data:application\/pdf;base64,/, '');
-
-        // Convert the Base64 string to a Buffer
-
-        // const arrayBuffer = await pdfBuffer.arrayBuffer();
-        //       pdfBuffer   = Buffer.from(arrayBuffer);
-       //pdfBuffer = Buffer.from(pdfBuffer.Buffer, 'base64');
-
-      // var buffer = Buffer.from(pdfBuffer, 'base64');
-
-      //     pdfBuffer = buffer.buffer;
-
-
   return new Promise((resolve, reject) => {
     fs.writeFile(outputPath, pdfBuffer, (err) => {
       if (err) {
@@ -120,97 +106,27 @@ async function createPdfFile(pdfBuffer, outputPath) {
 
 async function setbody(pdf, fileName, auth_token) {
 
-
   let mydata = new FormData();
 
-//  log("Form Data" , pdf);
-//  fileName = './' + fileName;
 
-//  log(" setbody CAP_DOX Extraction- post_job" + fileName);
+  // one solution---   create from List Report fiori app template app mapping
 
-//  log(" setbody CAP_DOX Extraction- post_job" + pdf);
+  // // await createPdfFile(pdf, fileName);
+  // // mydata.append('file', fs.createReadStream(fileName));
+  //   fileName = './' + fileName;
+  //    mydata.append('file', pdf,fileName);
 
- // var reader = new FileReader();
- // pdf = reader.FileReader().blob();
+  // two solution-- Upload files from Node Js Server 
 
-  // await fetch(dataURL)
-  // .then(res => res.blob())
-  // .then(res=> {
-  //   console.log("blob: "+res)
-  //   blobres = res;    
-  // });
-   // await createPdfFile(pdf, fileName);
-   // mydata.append('file', fs.createReadStream(fileName));
-    //  mydata.append('file', pdf,fileName);
-      
-     //  const pdfn = new Blob([pdf], { type: 'application/pdf' })
-
-   //  const byteArray = Buffer.from(pdf, 'base64');
-       //  pdf = pdf.transformToString("base64");
-   //  const pdfByteArray = await pdf.transformToByteArray();
-    // log(" CAP_DOX Extraction- pdfByteArray" + pdfByteArray);
+  //    pdf = await buffer(pdf);  
+  //  await createPdfFile(pdf, fileName);
+  //  mydata.append('file', fs.createReadStream(fileName));
 
 
-    //   const chunks = [];
-    //   var buffer;
-    // pdf.on('data', chunk => chunks.push(chunk));
-    // pdf.on('end', () => {
-    //      buffer = Buffer.concat(chunks);
-    //      log(" CAP_DOX Extraction- buffer-methds" + buffer);
-    //     // Now 'buffer' can be passed to the function expecting Buffer, ArrayBuffer, or Array
-    //     // Or, convert to string if needed: const content = buffer.toString('utf8');
-    // });
-    // pdf.on('error', err => {
-    //     console.error('Error reading stream:', err);
-    // });
-      
-     // let buffer1 = Buffer.from(pdf);
-     // const buffer = Buffer.from(buffer, 'base64');
+  // 3 solution -- Uploading pdf , jpg from UI -fiori app
 
-      //log(" CAP_DOX Extraction- buffer" + buffer);
-     // pdf = await streamToBuffer(pdf);
-
-     // one solution
-      //  pdf = await buffer(pdf);
-      //  await createPdfFile(pdf, fileName);
-      // mydata.append('file', fs.createReadStream(fileName));
-
-     //
-
-     // second solution
-
-
-      // await createPdfFile(pdf, fileName);
-      // mydata.append('file', fs.createReadStream(fileName));
-        //  fileName = './' + fileName;
-        //  mydata.append('file', pdf,fileName);
-
-      // third solution
-
-       // pdf = await buffer(pdf);
-    //   log(" sett bosy-createPdfFile" );
-     //  var buffer = Buffer.from(pdf, 'base64');   
-       log(" sett bosy-createPdfFile after" );  
-     //  await createPdfFile(pdf, fileName);
-    //  mydata.append('file', fs.createReadStream(fileName));
-
-
-     // 4 solution
-
-      const buffer = Buffer.from(pdf, 'base64');
-        mydata.append('file', buffer,fileName);
-
-
-       // pdf = await buffer(pdf);
-
-       //const buffer = Buffer.from(pdf, 'base64');
-        
-     // mydata.append('file', buffer,fileName);
-     // mydata.append('file', buffer,fileName);
-     //  mydata.append('file', pdfn,fileName);
-
-     // 4 solution
-
+  const buffer = Buffer.from(pdf, 'base64');
+  mydata.append('file', buffer, fileName);
 
 
   cap_dox_job = {
@@ -219,47 +135,104 @@ async function setbody(pdf, fileName, auth_token) {
     "documentType": cap_dox_config.documentType
   }
   mydata.append('options', JSON.stringify(cap_dox_job, null, 2))
-  // log(mydata)
   return mydata
 
 
-    // let mydata = new FormData();
-    // fileName = './' + fileName;
-    // log(" before setbody CAP_DOX Extraction- post_job--createPdfFile" );
-    // await createPdfFile(pdf, fileName);
-    // log(" after setbody CAP_DOX Extraction- post_job-- createPdfFile" );
-    // mydata.append('file', fs.createReadStream(fileName));
+  // pdf = await buffer(pdf);
 
-    // const blob = new Blob([pdf], {
-    //     type: 'pdf'
-    //   });
+  //const buffer = Buffer.from(pdf, 'base64');
 
-    //   var binaryString = atob(pdf);
-    // var bytes = new Uint8Array(binaryString.length);
-    // for (var i = 0; i < binaryString.length; i++) {
-    //     bytes[i] = binaryString.charCodeAt(i);
-    // }
-   // return bytes.buffer;
+  // mydata.append('file', buffer,fileName);
+  // mydata.append('file', buffer,fileName);
+  //  mydata.append('file', pdfn,fileName);
 
-    //  await createPdfFile(bytes, fileName);
+  // 4 solution
+  //  log("Form Data" , pdf);
+  //  fileName = './' + fileName;
 
-    // mydata.append('file', bytes,fileName);
+  //  log(" setbody CAP_DOX Extraction- post_job" + fileName);
 
-    // cap_dox_job = {
-    //   "schemaId": await get_schema(auth_token),
-    //   "clientId": cap_dox_config.clientId,
-    //   "documentType": cap_dox_config.documentType
-    // }
-    // mydata.append('options', JSON.stringify(cap_dox_job, null, 2))
-    // // log(mydata)
-    // return mydata
+  //  log(" setbody CAP_DOX Extraction- post_job" + pdf);
+
+  // var reader = new FileReader();
+  // pdf = reader.FileReader().blob();
+
+  // await fetch(dataURL)
+  // .then(res => res.blob())
+  // .then(res=> {
+  //   console.log("blob: "+res)
+  //   blobres = res;    
+  // });
+  // await createPdfFile(pdf, fileName);
+  // mydata.append('file', fs.createReadStream(fileName));
+  //  mydata.append('file', pdf,fileName);
+
+  //  const pdfn = new Blob([pdf], { type: 'application/pdf' })
+
+  //  const byteArray = Buffer.from(pdf, 'base64');
+  //  pdf = pdf.transformToString("base64");
+  //  const pdfByteArray = await pdf.transformToByteArray();
+  // log(" CAP_DOX Extraction- pdfByteArray" + pdfByteArray);
+
+
+  //   const chunks = [];
+  //   var buffer;
+  // pdf.on('data', chunk => chunks.push(chunk));
+  // pdf.on('end', () => {
+  //      buffer = Buffer.concat(chunks);
+  //      log(" CAP_DOX Extraction- buffer-methds" + buffer);
+  //     // Now 'buffer' can be passed to the function expecting Buffer, ArrayBuffer, or Array
+  //     // Or, convert to string if needed: const content = buffer.toString('utf8');
+  // });
+  // pdf.on('error', err => {
+  //     console.error('Error reading stream:', err);
+  // });
+
+  // let buffer1 = Buffer.from(pdf);
+  // const buffer = Buffer.from(buffer, 'base64');
+
+  //log(" CAP_DOX Extraction- buffer" + buffer);
+  // pdf = await streamToBuffer(pdf);
+
+
+
+  // let mydata = new FormData();
+  // fileName = './' + fileName;
+  // log(" before setbody CAP_DOX Extraction- post_job--createPdfFile" );
+  // await createPdfFile(pdf, fileName);
+  // log(" after setbody CAP_DOX Extraction- post_job-- createPdfFile" );
+  // mydata.append('file', fs.createReadStream(fileName));
+
+  // const blob = new Blob([pdf], {
+  //     type: 'pdf'
+  //   });
+
+  //   var binaryString = atob(pdf);
+  // var bytes = new Uint8Array(binaryString.length);
+  // for (var i = 0; i < binaryString.length; i++) {
+  //     bytes[i] = binaryString.charCodeAt(i);
+  // }
+  // return bytes.buffer;
+
+  //  await createPdfFile(bytes, fileName);
+
+  // mydata.append('file', bytes,fileName);
+
+  // cap_dox_job = {
+  //   "schemaId": await get_schema(auth_token),
+  //   "clientId": cap_dox_config.clientId,
+  //   "documentType": cap_dox_config.documentType
+  // }
+  // mydata.append('options', JSON.stringify(cap_dox_job, null, 2))
+  // // log(mydata)
+  // return mydata
 
 
 }
 
 async function get_token() {
 
-//  log("Starting CAP_DOX Extraction " + 'in get_token')
+  //  log("Starting CAP_DOX Extraction " + 'in get_token')
   var basic_auth = cap_dox_key.uaa.clientid + ':' + cap_dox_key.uaa.clientsecret
   let config = {
     method: 'get',
@@ -274,7 +247,7 @@ async function get_token() {
   access_token = await axios.request(config)
     .then((response) => {
       console.log('Oauth Token Fetched')
-    //  log("Starting CAP_DOX Extraction " + 'in get_token feteched')
+      //  log("Starting CAP_DOX Extraction " + 'in get_token feteched')
       return response.data.access_token;
     })
     .catch((error) => {
@@ -328,7 +301,7 @@ async function post_job(pdf, fileName, auth_token) {
   let job_id = '';
   job_id = await axios.request(config)
     .then((response) => {
-     // log('JOB Post ID: ------------------>')
+      // log('JOB Post ID: ------------------>')
       log('JOB Post ID:' + JSON.stringify(response.data.id));
       return response.data.id;
     })
@@ -336,7 +309,7 @@ async function post_job(pdf, fileName, auth_token) {
       log(error);
     });
 
-    log("Exiting post_job ");
+  log("Exiting post_job ");
   return job_id;
 }
 
@@ -385,14 +358,14 @@ async function get_job_status(job_id, auth_token) {
 async function entity_mapping_head_def(headerFields, entity) {
   for (let item of headerFields) {
     entity[item.name] = item.rawValue
-  //  log('Value Mapped \n', item.name, '--->', item.rawValue);
+    //  log('Value Mapped \n', item.name, '--->', item.rawValue);
   }
   return entity
 }
 
 async function entity_mapping_item_def(lineItems, entity) {
- // log('Started mapping items.')
- // log('entity: ', entity)
+  // log('Started mapping items.')
+  // log('entity: ', entity)
   try {
     let entity_properties = [];
     for (const key in entity) {
@@ -408,7 +381,7 @@ async function entity_mapping_item_def(lineItems, entity) {
       }
       if (valueType === 'array') {
         let entity_items = [];
-        
+
         for (let item of lineItems) {
           // log('Single Item: ', item);
           let entity_item = {};
@@ -417,10 +390,10 @@ async function entity_mapping_item_def(lineItems, entity) {
           }
           entity_items.push(entity_item)
         }
-      //  log('entity_items:');
-      //  log(entity_items);
+        //  log('entity_items:');
+        //  log(entity_items);
         entity[key] = entity_items;
-      //  log(entity);
+        //  log(entity);
       }
     }
   }

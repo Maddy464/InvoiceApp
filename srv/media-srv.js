@@ -5,10 +5,6 @@ const { Destinations } = require('@sap/cloud-sdk-core');
 const fetch = require('node-fetch');
 const express = require('express');
 const app = express();
-
-
-
-
 const axios = require("axios");
 const FormData = require('form-data');
 const fs = require('fs');
@@ -95,6 +91,47 @@ module.exports = cds.service.impl(async function () {
   this.before('CREATE', MediaFile, async data => {
 
     var invoice = {};
+     log("Starting CAP_DOX Extraction ")
+    let auth_token = await cap_doxlib.auth_token();
+    let job_id = await cap_doxlib.post_job(data.data.content, data.data.fileName, auth_token);
+    if (job_id) {
+      let dox_output = await cap_doxlib.get_job_status(job_id, auth_token);
+      try {
+        if (dox_output.status === 'DONE') {
+          log("Job Status dox_output---DONE")
+          //set header
+          const invoiceHeader = dox_output.extraction.headerFields.reduce((acc, curr) => {
+            acc[curr.name] = curr.value;
+            return acc;
+          }, {});
+
+          log('Invoice Header Data ::--->', invoiceHeader)
+          //set items
+          const invoiceItems = dox_output.extraction.lineItems.reduce((acc, item) => {
+            const lineItem = item.reduce((acc, curr) => {
+              acc[curr.name] = curr.value;
+              return acc;
+            }, {});
+            acc.push(lineItem);
+            return acc;
+          }, []);
+
+          log('Invoice Line Items Data ::--->', invoiceItems)
+          invoice["header"] = invoiceHeader;
+          invoice["items"] = invoiceItems;
+
+          // code ends          
+        }
+      }
+      catch {
+        log('something happened')
+      }
+    }
+    else {
+      log('Problem faced. Check JOBID: ', job_id);
+    }
+
+
     // const db = await cds.connect.to("db");
 
     // microsoft API's start
@@ -259,8 +296,7 @@ module.exports = cds.service.impl(async function () {
     //pdf =     new Blob([pdf]);
 
 
-    log("Starting CAP_DOX Extraction ")
-    let auth_token = await cap_doxlib.auth_token();
+    
 
     //log("Starting CAP_DOX Extraction--data.data " + data.data)
 
@@ -306,76 +342,12 @@ module.exports = cds.service.impl(async function () {
     //       const uint8Array = new Uint8Array(arrayBuffer);
 
     // let job_id = await cap_doxlib.post_job(data.data.content, data.data.fileName, auth_token);
-    let job_id = await cap_doxlib.post_job(data.data.content, data.data.fileName, auth_token);
-
+    
 
 
 
     // readable.push(null);
-
-
-    //  log("Job ID Received ---" + '${job_id}')
-    if (job_id) {
-      let dox_output = await cap_doxlib.get_job_status(job_id, auth_token);
-
-      // log("Job Status dox_output---",  dox_output)
-
-      // log("Job Status dox_output---" + '${dox_output}')
-      try {
-        if (dox_output.status === 'DONE') {
-          log("Job Status dox_output---DONE")
-          //   log('Data.Data Headers data::--->', dox_output.extraction.headerFields);
-
-          // code copied starts
-
-          
-
-          //set header
-          const invoiceHeader = dox_output.extraction.headerFields.reduce((acc, curr) => {
-            acc[curr.name] = curr.value;
-            return acc;
-          }, {});
-
-
-          log('Invoice Header Data ::--->', invoiceHeader)
-
-          //set items
-          const invoiceItems = dox_output.extraction.lineItems.reduce((acc, item) => {
-            const lineItem = item.reduce((acc, curr) => {
-              acc[curr.name] = curr.value;
-              return acc;
-            }, {});
-            acc.push(lineItem);
-            return acc;
-          }, []);
-
-
-          log('Invoice Line Items Data ::--->', invoiceItems)
-          invoice["header"] = invoiceHeader;
-          invoice["items"] = invoiceItems;
-
-          // code ends
-
-          data.data = await cap_doxlib.entity_mapping_head(dox_output.extraction.headerFields, data.data)
-          //  log('Data.Data Lineitems data::--->', dox_output.extraction.lineItems)
-          let data_with_items = await cap_doxlib.entity_mapping_item(dox_output.extraction.lineItems, data.data)
-          if (data_with_items) {
-            data.data = data_with_items;
-          }
-          // log('data_with_items::--->', data_with_items)
-        }
-      }
-      catch {
-        log('something happened')
-      }
-    }
-    else {
-      log('Problem faced. Check JOBID: ', job_id);
-    }
-
-
-
-   
+  
 
     // const formData = new FormData()
 

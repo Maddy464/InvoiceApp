@@ -3,6 +3,8 @@
 
 ## Learn More
 
+https://github.com/SAP/business-document-processing/blob/main/doc_inf_ext_exercises/README.md
+
 Learn more at https://cap.cloud.sap/docs/get-started/.
 
 
