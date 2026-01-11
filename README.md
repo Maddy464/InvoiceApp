@@ -55,3 +55,8 @@ https://github.com/SAP-samples/fiori-elements-feature-showcase
 			<ObjectAttribute text="{Width} x {Depth} x {Height} {DimUnit}" />
 		</ObjectListItem>
 	</List>
+
+
+	***************************************************************************************
+
+	this is latest commit
