@@ -10,6 +10,14 @@ sap.ui.define([
         onInit() {
         },
 
+       
+
+        onCloudDataInt:function (oEvent) {
+
+             // '90027775'
+
+        },
+
         onTrigger:function (oEvent) {
 
             var tets = "";

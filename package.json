@@ -7,8 +7,10 @@
   "private": true,
   "dependencies": {
     "@cap-js/hana": "^2",
-    "@sap-cloud-sdk/http-client": "^4.1.2",
+    "@sap-cloud-sdk/connectivity": "^3.26.4",
+    "@sap-cloud-sdk/http-client": "^3.26.4",
     "@sap-cloud-sdk/resilience": "^4.1.2",
+    "@sap-cloud-sdk/util": "^3.26.4",
     "@sap/cds": "^9",
     "@sap/cds-odata-v2-adapter-proxy": "^1.9.7",
     "@sap/cloud-sdk-core": "^1.17.2",
@@ -53,13 +55,34 @@
         }
       },
       "destinations": true,
-      "connectivity": true
-    },
-     "server": {
-          "body_parser": {
-            "limit": "5mb" 
+      "connectivity": true,
+      "SupplierInvoice": {
+        "kind": "odata-v2",
+        "model": "srv/external/SupplierInvoice",
+        "[production]": {
+          "credentials": {
+            "path": "/s4hanacloud/sap/opu/odata/sap/API_SUPPLIERINVOICE_PROCESS_SRV"
+          }
+        },
+        "csrf": true,
+        "csrfInBatch": true
+      },
+      "API_BILLING_DOCUMENT_SRV": {
+        "kind": "odata-v2",
+        "model": "srv/external/API_BILLING_DOCUMENT_SRV",
+        "credentials": {
+          "url": "https://sandbox.api.sap.com/s4hanacloud/sap/opu/odata/sap/API_BILLING_DOCUMENT_SRV/",
+          "headers": {
+            "APIKey": "GLUO7j9Q3OMACoWHpYEjeATYVAWYkRaq"
           }
         }
+      }
+    },
+    "server": {
+      "body_parser": {
+        "limit": "5mb"
+      }
+    }
   },
   "workspaces": [
     "app/*"

@@ -1,5 +1,9 @@
 
+https://developers.sap.com/tutorials/remote-service-extend..html
 
+https://community.sap.com/t5/technology-blog-posts-by-sap/agentic-coding-with-mcp-extending-cap-and-fiori-applications/ba-p/14290686
+
+https://github.com/SAP-samples/teched2023-XP260
 
 ## Learn More
 

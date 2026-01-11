@@ -42,5 +42,7 @@ https://help.sap.com/docs/build-work-zone-standard-edition/sap-build-work-zone-s
 
 https://developers.sap.com/tutorials/workzone-enrich-3-webdynpro-app.html
 
+https://medium.com/@sohail9744/what-is-xsuaa-in-cap-19850ef39a45
+
 
 
