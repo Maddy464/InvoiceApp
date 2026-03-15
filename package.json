@@ -58,11 +58,12 @@
       "connectivity": true,
       "SupplierInvoice": {
         "kind": "odata-v2",
-        "model": "srv/external/SupplierInvoice",
-        "[production]": {
+        "model": "srv/external/SupplierInvoice",    
           "credentials": {
-            "path": "/s4hanacloud/sap/opu/odata/sap/API_SUPPLIERINVOICE_PROCESS_SRV"
-          }
+            "url": "https://sandbox.api.sap.com/s4hanacloud/sap/opu/odata/sap/API_SUPPLIERINVOICE_PROCESS_SRV",
+                  "headers": {
+            "APIKey": "ctdEXxHjePj5lt03sGvnAchwAf860vWv"
+          }       
         },
         "csrf": true,
         "csrfInBatch": true
@@ -73,7 +74,7 @@
         "credentials": {
           "url": "https://sandbox.api.sap.com/s4hanacloud/sap/opu/odata/sap/API_BILLING_DOCUMENT_SRV/",
           "headers": {
-            "APIKey": "GLUO7j9Q3OMACoWHpYEjeATYVAWYkRaq"
+            "APIKey": "ctdEXxHjePj5lt03sGvnAchwAf860vWv"
           }
         }
       }

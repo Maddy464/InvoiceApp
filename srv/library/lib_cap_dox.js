@@ -50,20 +50,20 @@ const cap_dox_key = {
   "uaa": {
     "tenantmode": "shared",
     "sburl": "https://internal-xsuaa.authentication.us10.hana.ondemand.com",
-    "subaccountid": "02bcce83-7a01-471e-9499-a682320e6108",
+    "subaccountid": "d40ee910-bbed-45da-9153-306a2323c4ec",
     "credential-type": "binding-secret",
-    "clientid": "sb-aedb8465-85f9-434b-81e6-0b54565dffb7!b567119|dox-xsuaa-std-trial!b10844",
-    "xsappname": "aedb8465-85f9-434b-81e6-0b54565dffb7!b567119|dox-xsuaa-std-trial!b10844",
-    "clientsecret": "96ca24fe-ab3a-4976-bc51-e1403cd32c2a$6ajIdu5xOXjKqsVgPcpzUq8rDemtpKXNk98SnCmfXXM=",
-    "serviceInstanceId": "aedb8465-85f9-434b-81e6-0b54565dffb7",
-    "url": "https://4665dffdtrial.authentication.us10.hana.ondemand.com",
+    "clientid": "sb-a7ed2473-c534-4265-8c14-441321017745!b614370|dox-xsuaa-std-trial!b10844",
+    "xsappname": "a7ed2473-c534-4265-8c14-441321017745!b614370|dox-xsuaa-std-trial!b10844",
+    "clientsecret": "473fff1b-b338-4b9b-9a0f-afa205031ecf$Fv8BKR39fOmYPsmH-nqtTpPk1ZnCebYHgiWAAHoXCiY=",
+    "serviceInstanceId": "a7ed2473-c534-4265-8c14-441321017745",
+    "url": "https://42d53696trial.authentication.us10.hana.ondemand.com",
     "uaadomain": "authentication.us10.hana.ondemand.com",
-    "verificationkey": "-----BEGIN PUBLIC KEY-----\nMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEArewE27YikOO0uwHI1vM+\n1EsOi9n1cVT9Z31nEDnXgV5h2IhydYSZg8fGqHrHQME+kRuSrA2kJADMCERaY2P6\nOl44mlZPj16gYit8DtQIVkYlXpP4m6EGvWOQyXsSIiW2hkbOPL00B49DscHlNYs8\nlob0cNL0gRt2iCmV+9mpBoSCKIdS7x3EDtaxgMph4+mbNY1yS9EFrfbaaN6wcQiq\nYcOBKVGvjMxkqCjMxzb1Ql/gnnJ/T+JKuOprQPuYHICobUHrKgb4Q4OZfghKwJn7\nsyXT+5VRhrSg6V74C95pU8wfihaOSMdvtqkPR8erGzV53cTXOZ1MhRmkGsTD+IHE\n2wIDAQAB\n-----END PUBLIC KEY-----",
+    "verificationkey": "-----BEGIN PUBLIC KEY-----\nMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAxAQghayF5WO+lpiquNDk\nGozWbcGQSBVSVjSAd14sc8a5V/Q0tbF7ISGt1KcF/+yn+DxecIJ/6ss6L0me1620\n2pLTjryoSApEzQmZ4Alt58aeyes/ZOg+mMDtMQHAWQAkSyaPV0VWbCC+Zfv2JKwZ\n7zwknG64W3fwvRPoeeWBQXQlzbNZucUAaFEkw4sDcdUhxisMqZf0bzHNqb2AxF3g\nw/Z6k8S/PlczPf8Q/VOcg9BDk7ac00Gf9k7aJs7TYxE9WLEieuHmHw75RJSNAB30\nC31Ujn7TteqAyW1X3Q/CwsWvFW1wlO+TUwrQ64TD/5dZsfSDC48SGTdcx5/tl2+z\nrQIDAQAB\n-----END PUBLIC KEY-----",
     "apiurl": "https://api.authentication.us10.hana.ondemand.com",
-    "identityzone": "4665dffdtrial",
-    "identityzoneid": "02bcce83-7a01-471e-9499-a682320e6108",
-    "tenantid": "02bcce83-7a01-471e-9499-a682320e6108",
-    "zoneid": "02bcce83-7a01-471e-9499-a682320e6108"
+    "identityzone": "42d53696trial",
+    "identityzoneid": "d40ee910-bbed-45da-9153-306a2323c4ec",
+    "tenantid": "d40ee910-bbed-45da-9153-306a2323c4ec",
+    "zoneid": "d40ee910-bbed-45da-9153-306a2323c4ec"
   },
   "url": "https://aiservices-trial-dox.cfapps.us10.hana.ondemand.com",
   "dwcreuseservice": true,
@@ -76,7 +76,7 @@ const cap_dox_key = {
       "timeout": 30000
     }
   },
-  "tenantuiurl": "https://4665dffdtrial.us10-trial.doc.cloud.sap"
+  "tenantuiurl": "https://42d53696trial.us10-trial.doc.cloud.sap"
 }
 
 

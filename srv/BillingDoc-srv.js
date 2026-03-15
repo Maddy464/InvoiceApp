@@ -21,7 +21,7 @@ class BillingDocService extends cds.ApplicationService {
 
      async init() {
 
-     this.on('generatePdf', this.getBiilingDoc);
+    // this.on('generatePdf', this.getBiilingDoc);
 
      const { ZBillingDocument } = this.entities;
      this.on('READ', ZBillingDocument,      async (req) => { 
@@ -56,13 +56,13 @@ class BillingDocService extends cds.ApplicationService {
 
      }
 
-      generatePdf(req) {
+      // generatePdf(req) {
 
           
-         log("Generate PDF ACtion Triggered")
+      //    log("Generate PDF ACtion Triggered")
 
 
-      }
+      // }
 
 
 }
